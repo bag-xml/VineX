@@ -100,27 +100,24 @@ def handleMeRequest():
     }
     return jsonify(response)
 
-# device token
+
+
+
+
+#property that allows any parameter of the user to be changed
+
+#username
+#description
+#location
+#email
+#phonenumber
+
+#private BOOL
+
 @app.route('/users/<user_id>', methods=['PUT'])
-def deviceTokenSynchronization(user_id):
-    response = {
-    "code": "",
-    "data": {},
-    "success": True,
-    "error": ""
-    }
-    return make_response(jsonify(response), 201)
-
-
-# Suggested
-@app.route('/users/<user_id>/following/suggested/twitter', methods=['GET'])
-def twitterInit(user_id):
-    return find.twitterRecommendations()
-
-@app.route('/users/<user_id>/following/suggested/contacts', methods=['PUT'])
-def addressBookInitialization(user_id):
-    return find.addressBookIntegration()
-
+def settings_management(user_id):
+    return "a"
+    
 # Host
 if __name__ == '__main__':
     app.run(port=config.PORT, host="0.0.0.0", debug=False)
