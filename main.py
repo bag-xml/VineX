@@ -38,6 +38,7 @@ def initiate_logout():
     return authenticate.logout()
 
 
+#forgot password
 
 
 
@@ -47,6 +48,7 @@ def handleProfile(user_id):
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
+
     response = {
     "code": "",
     "data": {
@@ -104,19 +106,112 @@ def handleMeRequest():
 
 
 
-#property that allows any parameter of the user to be changed
-
-#username
-#description
-#location
-#email
-#phonenumber
-
-#private BOOL
+from flask import request, jsonify
 
 @app.route('/users/<user_id>', methods=['PUT'])
 def settings_management(user_id):
-    return "a"
+    form_data = request.form
+
+    if 'username' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET username = %s WHERE id = %s", (form_data["username"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their username to {form_data['username']}")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+
+    elif 'description' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET description = %s WHERE id = %s", (form_data["description"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their description to {form_data['description']}")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+
+    elif 'location' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET location = %s WHERE id = %s", (form_data["location"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their location name.")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+
+    elif 'email' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET email = %s WHERE id = %s", (form_data["email"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their Email address to {form_data['email']}")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+
+    elif 'phoneNumber' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET phoneNumber = %s WHERE id = %s", (form_data["phoneNumber"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their phone number.")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+    elif 'private' in form_data:
+        cursor = cnx.cursor(buffered=True)
+        cursor.execute("UPDATE users SET isPrivate = %s WHERE id = %s", (form_data["private"], user_id))
+        cnx.commit()
+        cursor.close()
+        print(f"[Settings management] User {user_id} has changed their account protection status to {form_data['private']}.")
+        # success
+        response = {
+        "code": "",
+        "data": [],
+        "success": True,
+        "error": ""
+        }
+        return make_response(jsonify(response), 201)
+    elif 'twitterConnected' in form_data:
+        print("a")
+    else:
+        response = {
+        "code": "",
+        "data": [],
+        "success": False,
+        "error": "An unexpected error has occured. Sorry for the inconvenience."
+        }
+        return make_response(jsonify(response), 401)
+        # add twitter and facebook too but only to satisfy the users feedback, not actually add them hehe
+
     
 # Host
 if __name__ == '__main__':
