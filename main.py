@@ -8,6 +8,7 @@ import uuid
 # own components
 from modules import authenticate
 from modules import find
+from modules import userManager
 import config
 
 
@@ -75,6 +76,7 @@ def handleProfile(user_id):
 
     return jsonify(response)
 
+# fix this fix this fix this fix this fix this fix this fix this fix this
 @app.route('/users/me', methods=['GET'])
 def handleMeRequest():
     response = {
@@ -103,10 +105,6 @@ def handleMeRequest():
     return jsonify(response)
 
 
-
-
-
-from flask import request, jsonify
 
 @app.route('/users/<user_id>', methods=['PUT'])
 def settings_management(user_id):
