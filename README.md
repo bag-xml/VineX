@@ -1,9 +1,5 @@
 <div align="center">
- <h1>VineX</h1>
- <br>
- <h4>Backend for old versions of the Vine application on iOS</h4>
- <br>
- <em>written in Python</em>
+# VineX
 </div>
 <hr>
 <table>
