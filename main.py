@@ -135,18 +135,30 @@ def settings_management(user_id):
 
     if 'username' in form_data:
         cursor = cnx.cursor(buffered=True)
-        cursor.execute("UPDATE users SET username = %s WHERE id = %s", (form_data["username"], user_id))
-        cnx.commit()
-        cursor.close()
-        print(f"[Settings management] User {user_id} has changed their username to {form_data['username']}")
-        # success
-        response = {
-        "code": "",
-        "data": [],
-        "success": True,
-        "error": ""
-        }
-        return make_response(jsonify(response), 201)
+        cursor.execute("SELECT COUNT(*) FROM users WHERE username = %s", (form_data['username'],))
+        username_overlap = cursor.fetchone()[0]
+        if username_overlap > 0:
+            response = {
+            "code": "",
+            "data": [],
+            "success": False,
+            "error": "An account with that username already exists. Please choose another username to continue."
+            }
+            return make_response(jsonify(response), 401)
+
+        else:
+            cursor.execute("UPDATE users SET username = %s WHERE id = %s", (form_data["username"], user_id))
+            cnx.commit()
+            cursor.close()
+            print(f"[Settings management] User {user_id} has changed their username to {form_data['username']}")
+            # success
+            response = {
+            "code": "",
+            "data": [],
+            "success": True,
+            "error": ""
+            }
+            return make_response(jsonify(response), 201)
 
     elif 'description' in form_data:
         cursor = cnx.cursor(buffered=True)
@@ -180,18 +192,31 @@ def settings_management(user_id):
 
     elif 'email' in form_data:
         cursor = cnx.cursor(buffered=True)
-        cursor.execute("UPDATE users SET email = %s WHERE id = %s", (form_data["email"], user_id))
-        cnx.commit()
-        cursor.close()
-        print(f"[Settings management] User {user_id} has changed their Email address to {form_data['email']}")
-        # success
-        response = {
-        "code": "",
-        "data": [],
-        "success": True,
-        "error": ""
-        }
-        return make_response(jsonify(response), 201)
+        cursor.execute("SELECT COUNT(*) FROM users WHERE email = %s", (form_data['email'],))
+        email_overlap = cursor.fetchone()[0]
+
+        if email_overlap > 0:
+            response = {
+            "code": "",
+            "data": [],
+            "success": False,
+            "error": "An account with that Email address already exists. Please choose another Email to continue."
+            }
+            return make_response(jsonify(response), 401)
+
+        else:
+            cursor.execute("UPDATE users SET email = %s WHERE id = %s", (form_data["email"], user_id))
+            cnx.commit()
+            cursor.close()
+            print(f"[Settings management] User {user_id} has changed their Email address to {form_data['email']}")
+            # success
+            response = {
+            "code": "",
+            "data": [],
+            "success": True,
+            "error": ""
+            }
+            return make_response(jsonify(response), 201)
 
     elif 'phoneNumber' in form_data:
         cursor = cnx.cursor(buffered=True)
