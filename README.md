@@ -4,5 +4,5 @@
    </h1>
 </div>
 
-## Information and compatibility
+### Information and compatibility
 VineX is a backend made for older versions of the iOS Vine application.
