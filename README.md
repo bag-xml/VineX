@@ -1,8 +1,5 @@
-<div align="center">
 # VineX
-</div>
-<hr>
-<table>
+## Backend for old versions of the Vine iOS application, written in python
           <thead>
             <tr>
               <th>iOS Version</th>
