@@ -1,5 +1,9 @@
-# VineX
- Vine v1.3.3 (iOS) backend, written in python
+<div align="center">
+ # VineX
+ Backend for old versions of the Vine application on iOS
+ <em>written in Python</em>
+</div>
+<hr>
 <table>
           <thead>
             <tr>
