@@ -23,6 +23,9 @@ def create_user():
     salt = bcrypt.gensalt(rounds=15)
     securepasswd = bcrypt.hashpw(bytes(passwd, 'UTF-8'), salt)
 
+    # identifier
+    key = uuid.uuid4()
+    uniqueIdentifier = str(key)
     # database segment
     cursor = cnx.cursor()
 
@@ -55,12 +58,10 @@ def create_user():
         return make_response(jsonify(response), 401)
     else:
         print(f"[Registration] Filing database entry for a NEW USER. Given data is: {username} {email} {securepasswd}")
-        cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, securepasswd.decode('UTF-8'), email))
+        cursor.execute("INSERT INTO users (username, password, email, uniqueIdentifier) VALUES (%s, %s, %s, %s)", (username.decode('UTF-8'), securepasswd.decode('UTF-8'), email, uniqueIdentifier))
         cnx.commit()
         # get user id
         user_id = cursor.lastrowid
-        # special key
-        key = uuid.uuid4()
 
         cursor.close()
         print(f"[Registration] User creation successful, welcome {username} aka. ID {user_id}!")
@@ -103,7 +104,7 @@ def login():
             
             # get user id and "key"
             cnx.commit()
-            cursor.execute("SELECT username, id FROM users WHERE email = %s", (email,))
+            cursor.execute("SELECT username, id, uniqueIdentifier FROM users WHERE email = %s", (email,))
             row = cursor.fetchone()
             key = uuid.uuid4()
             # prep response
@@ -112,7 +113,7 @@ def login():
             "data": {
                 "username": row[0],
                 "userId": row[1],
-                "key": key
+                "key": row[2]
             },
             "success": True,
             "error": ""

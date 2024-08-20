@@ -9,7 +9,7 @@
 # Version and name, will be reported back in logs
 
 AUTHOR = "XML"
-NAME = "XVineServer"
+NAME = "XVineServer dedicated for App Version 1.1.2"
 VERSION = "v0.2"
 
 # Networking
