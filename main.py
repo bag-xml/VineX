@@ -37,25 +37,24 @@ def initiate_logout():
     return authenticate.logout()
 
 
-#forgot password
 
-
-
-
+# User and Settings endpoints
+# Profile
 @app.route('/users/profiles/<user_id>', methods=['GET'])
 def initHPF(user_id):
     return userManager.handleProfile(user_id)
 
-# fix this fix this fix this fix this fix this fix this fix this fix this
+# Userinfo Retrieval
 @app.route('/users/me', methods=['GET'])
 def initMeRequest():
     return userManager.handleMeRequest()
 
-
+# Preference Management
 @app.route('/users/<user_id>', methods=['PUT'])
 def manage_user_settings(user_id):
     return userManager.settings_management(user_id)
 
+# Preference Management v2
 @app.route('/users/<user_id>/preferences', methods=['PUT'])
 def manage_advanced_settings(user_id):
     return userManager.furtherSettingsManagement(user_id)
