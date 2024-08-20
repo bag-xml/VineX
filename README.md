@@ -1,7 +1,7 @@
 <div align="center">
    <img src="https://blog.bag-xml.com/amber/static/resources/vine-x-tweak.png" height="200" width="200">
-   <h3> VineX 
-   </h3>
+   <h2> VineX 
+   </h2>
 </div>
 
 ### Information and compatibility
