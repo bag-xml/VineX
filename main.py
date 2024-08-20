@@ -48,6 +48,15 @@ def handleProfile(user_id):
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, promo FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
 
+    if row is None:
+        response = {
+        "code": "",
+        "data": [],
+        "success": False,
+        "error": "An unexpected error has occured"
+        }
+        return make_response(jsonify(response), 404)
+
     response = {
     "code": "",
     "data": {
@@ -82,6 +91,15 @@ def handleMeRequest():
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, id, promo FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
     row = cursor.fetchone()
+
+    if row is None:
+        response = {
+        "code": "",
+        "data": [],
+        "success": False,
+        "error": "An unexpected error has occured"
+        }
+        return make_response(jsonify(response), 401)
 
     response = {
     "code": "",

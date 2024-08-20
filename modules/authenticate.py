@@ -58,7 +58,7 @@ def create_user():
         return make_response(jsonify(response), 401)
     else:
         print(f"[Registration] Filing database entry for a NEW USER. Given data is: {username} {email} {securepasswd}")
-        cursor.execute("INSERT INTO users (username, password, email, uniqueIdentifier) VALUES (%s, %s, %s, %s)", (username.decode('UTF-8'), securepasswd.decode('UTF-8'), email, uniqueIdentifier))
+        cursor.execute("INSERT INTO users (username, password, email, uniqueIdentifier) VALUES (%s, %s, %s, %s)", (username, securepasswd.decode('UTF-8'), email, uniqueIdentifier))
         cnx.commit()
         # get user id
         user_id = cursor.lastrowid
