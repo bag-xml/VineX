@@ -1,7 +1,7 @@
 <div align="center">
    <img src="https://blog.bag-xml.com/amber/static/resources/vine-x-tweak.png" height="200" width="200">
    <h3> VineX 
-      <br>A server, made for older versions of the iOS Vine app.
+      <br><p>A server, made for older versions of the iOS Vine app.</p>
    </h3>
 </div>
 
