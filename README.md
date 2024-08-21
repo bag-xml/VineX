@@ -47,6 +47,11 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Incomplete  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Incomplete  |
 | /users/(User-ID)/complaints/  | File a complaint  | Incomplete  |
+
+| Explore  | Context | Status |
+| ------------- | ------------- | ------------- |
+| /explore/(app version)  | Explore page  | Incomplete  |
+
 ## How to use?
 You need to install python, then just install the requirements.
 Requirements for this project are:
