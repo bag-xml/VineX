@@ -29,14 +29,3 @@ def addressBookIntegration():
 
     return make_response(jsonify(response), 401)
 
-
-    """
-    # Suggested
-@app.route('/users/<user_id>/following/suggested/twitter', methods=['GET'])
-def twitterInit(user_id):
-    return find.twitterRecommendations()
-
-@app.route('/users/<user_id>/following/suggested/contacts', methods=['PUT'])
-def addressBookInitialization(user_id):
-    return find.addressBookIntegration()
-"""

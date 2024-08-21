@@ -66,6 +66,10 @@ def manage_user_settings(user_id):
 def manage_advanced_settings(user_id):
     return userManager.furtherSettingsManagement(user_id)
 
+@app.route('/users/<user_id>/following/suggested/contacts', methods=['PUT'])
+def addressBookInitialization(user_id):
+    return find.addressBookIntegration()
+#Followers, and following, aswell as following
 
 
 # timeline endpoints
@@ -79,74 +83,57 @@ def callLikePageFunction(user_id):
 def callUserTimelineRetrieval(user_id):
     return timelineManager.userLikes(user_id)
 
-2
+
+
+
+
+
+
+
+
+
 # experiment
-# Preference Management v2
 @app.route('/users/<user_id>/notifications', methods=['GET'])
 def sampleNotif(user_id):
     response = {
     "code": "",
     "data": {
-        "count": 2,
+        "count": 1,
         "records": [
             {
-                "body": "some user is now following you!",
-                "displayUserId": 22,
-                "label": "ahfewhfieufhifh",
-                "thumbnailUrl": None,
-                "verified": 1,
-                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "body": "what the fuck",
+                "verified": 0,
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
                 "notificationTypeId": 1,
-                "created": "now",
-                "userId": 22,
-                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
-                "notificationId": 3312356542334,
-                "postId": None
+                "created": "2024-08-12T14:29:1.2",
+                "userId": 23,
+                "notificationId": 492792423,
+                "postId": 1
             },
             {
                 "body": "some user is now following you!",
-                "displayUserId": 22,
-                "label": "ahfewhfieufhifh",
-                "thumbnailUrl": None,
-                "verified": 1,
-                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "thumbnailUrl": "https://bag-xml.com/assets/img/discord.png", # Post thumbnail
+                "verified": 0,
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png", # User who triggered action
                 "notificationTypeId": 2,
-                "created": "2013-01-29T12:16:06.000000",
-                "userId": 22,
-                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "created": "2024-08-12T14:29:1.2",
+                "userId": 23,
                 "notificationId": 123456789,
-                "postId": None
+                "postId": 1
             },
             {
                 "body": "some user is now following you!",
-                "displayUserId": user_id,
-                "label": "ahfewhfieufhifh",
-                "thumbnailUrl": None,
-                "verified": 1,
-                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "thumbnailUrl": "https://bag-xml.com/assets/img/discord.png", #righthand image
+                "verified": 0,
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
                 "notificationTypeId": 3,
-                "created": "2013-01-29T12:16:06.000000",
-                "userId": user_id,
-                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "created": "2024-08-12T14:29:1.2",
+                "userId": 23,
                 "notificationId": 123456789,
-                "postId": None
-            },
-            {
-                "body": "some user is now following you!",
-                "displayUserId": user_id,
-                "label": "ahfewhfieufhifh",
-                "thumbnailUrl": None,
-                "verified": 1,
-                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
-                "notificationTypeId": 4,
-                "created": "2013-01-29T12:16:06.000000",
-                "userId": user_id,
-                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
-                "notificationId": 123456789,
-                "postId": None
-            },
+                "postId": 1
+            }
         ],
-        "nextPage": None,
+        "nextPage": 1,
         "previousPage": None,
         "size": 250
     },

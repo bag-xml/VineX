@@ -13,7 +13,7 @@ def userLikes(user_id):
     "code": "",
     "data": [],
     "success": False,
-    "error": "An account with that username already exists. Please choose another username to continue."
+    "error": "Sorry, this endpoint hasn't been engineered yet."
     }
 
     return make_response(jsonify(response), 401)
@@ -25,7 +25,7 @@ def userTimeline(user_id):
     "code": "",
     "data": [],
     "success": False,
-    "error": "An account with that username already exists. Please choose another username to continue."
+    "error": "Sorry, this endpoint hasn't been engineered yet."
     }
 
     return make_response(jsonify(response), 401)
