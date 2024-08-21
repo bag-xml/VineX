@@ -10,6 +10,18 @@ VineX is primarily made for the Vine iOS app, version 1.1.2. It's recommended th
 
 This is just a flask server, therefore should then be familiar for people who've worked with flask before.
 
+VineX will come with a tweak too, which'll support the following iOS versions:
+
+| iOS Version  | Support status |
+| ------------- | ------------- |
+| iOS 5  | Not supported  |
+| iOS 6  | Supported  |
+| iOS 7  | Supported  |
+| iOS 8  | Supported  |
+| iOS 9  | Supported  |
+| iOS 10  | Untested  |
+| iOS 11  | Untested  |
+
 ## Roadmap
 Here is a table to show what endpoints have been implemented into VineX. And what features are still due to add.
 
