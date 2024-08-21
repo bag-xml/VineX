@@ -6,6 +6,8 @@ import mysql.connector
 # own components
 from modules import authenticate
 from modules import find
+
+from modules import timelineManager
 from modules import userManager
 import config
 
@@ -49,6 +51,11 @@ def initHPF(user_id):
 def initMeRequest():
     return userManager.handleMeRequest()
 
+"""# Profile picture uploading
+@app.route('/avatars<file>', methods=['PUT'])
+def manage_user_upload(file):
+    return userManager.setPFP(file)"""
+
 # Preference Management
 @app.route('/users/<user_id>', methods=['PUT'])
 def manage_user_settings(user_id):
@@ -59,6 +66,106 @@ def manage_user_settings(user_id):
 def manage_advanced_settings(user_id):
     return userManager.furtherSettingsManagement(user_id)
 
+
+
+# timeline endpoints
+
+# user specific
+@app.route('/timelines/users/<user_id>/likes', methods=['GET'])
+def callLikePageFunction(user_id):
+    return timelineManager.userLikes(user_id)
+
+@app.route('/timelines/users/<user_id>', methods=['GET'])
+def callUserTimelineRetrieval(user_id):
+    return timelineManager.userLikes(user_id)
+
+2
+# experiment
+# Preference Management v2
+@app.route('/users/<user_id>/notifications', methods=['GET'])
+def sampleNotif(user_id):
+    response = {
+    "code": "",
+    "data": {
+        "count": 2,
+        "records": [
+            {
+                "body": "some user is now following you!",
+                "displayUserId": 22,
+                "label": "ahfewhfieufhifh",
+                "thumbnailUrl": None,
+                "verified": 1,
+                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "notificationTypeId": 1,
+                "created": "now",
+                "userId": 22,
+                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "notificationId": 3312356542334,
+                "postId": None
+            },
+            {
+                "body": "some user is now following you!",
+                "displayUserId": 22,
+                "label": "ahfewhfieufhifh",
+                "thumbnailUrl": None,
+                "verified": 1,
+                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "notificationTypeId": 2,
+                "created": "2013-01-29T12:16:06.000000",
+                "userId": 22,
+                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "notificationId": 123456789,
+                "postId": None
+            },
+            {
+                "body": "some user is now following you!",
+                "displayUserId": user_id,
+                "label": "ahfewhfieufhifh",
+                "thumbnailUrl": None,
+                "verified": 1,
+                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "notificationTypeId": 3,
+                "created": "2013-01-29T12:16:06.000000",
+                "userId": user_id,
+                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "notificationId": 123456789,
+                "postId": None
+            },
+            {
+                "body": "some user is now following you!",
+                "displayUserId": user_id,
+                "label": "ahfewhfieufhifh",
+                "thumbnailUrl": None,
+                "verified": 1,
+                "avatarUrl": "https://bag-xml.com/assets/img/itunes.png",
+                "notificationTypeId": 4,
+                "created": "2013-01-29T12:16:06.000000",
+                "userId": user_id,
+                "displayAvatarUrl": "https://bag-xml.com/assets/img/mobilemali.png",
+                "notificationId": 123456789,
+                "postId": None
+            },
+        ],
+        "nextPage": None,
+        "previousPage": None,
+        "size": 250
+    },
+    "success": True,
+    "error": ""
+    }
+
+    return jsonify(response)
+
+@app.route('/users/<user_id>/pendingNotificationsCount', methods=['GET'])
+def samplePendingNotif(user_id):
+    response = {
+    "code": "",
+    "data": 1,
+    "success": True,
+    "error": ""
+    }
+
+    return jsonify(response)
 # Host
 if __name__ == '__main__':
     app.run(port=config.PORT, host="0.0.0.0", debug=False)

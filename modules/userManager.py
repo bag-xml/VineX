@@ -48,7 +48,7 @@ def handleProfile(user_id):
 
     return jsonify(response)
 
-    
+
 def handleMeRequest():
     uniqueIdentifer = request.headers.get('vine-session-id')
     cursor = cnx.cursor(buffered=True)
@@ -239,3 +239,7 @@ def furtherSettingsManagement(user_id):
         "error": ""
         }
         return make_response(jsonify(response), 201)
+
+# need to engineer this still
+def setPFP(file):
+    return (f"hi {file}")
