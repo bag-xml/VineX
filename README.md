@@ -25,6 +25,15 @@ VineX will come with a tweak too, which'll support the following iOS versions:
 ## Roadmap
 Here is a table to show what endpoints have been implemented into VineX. And what features are still due to add.
 
+| Authentication endpoints  | Status | Status |
+| ------------- | ------------- | ------------- |
+| /users  | Not supported  | Untested  |
+| iOS 6  | Supported  | Untested  |
+| iOS 7  | Supported  | Untested  |
+| iOS 8  | Supported  | Untested  |
+| iOS 9  | Supported  | Untested  |
+| iOS 10  | Untested  | Untested  |
+| iOS 11  | Untested  | Untested  |
 
 ## How to use?
 You need to install python, then just install the requirements.
