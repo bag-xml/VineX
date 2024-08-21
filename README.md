@@ -53,7 +53,6 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 
 | Timeline  | Context | Status |
 | ------------- | ------------- | ------------- |
-| /explore/(app version)  | Explore page  | Incomplete  |
 
 | Explore  | Context | Status |
 | ------------- | ------------- | ------------- |
