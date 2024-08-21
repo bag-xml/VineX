@@ -38,8 +38,12 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/me | Userinfo retrieval  | Completed(?)  |
 | /users/(User-ID)  | Settings management  | Completed  |
 | /users/(User-ID)/preferences  | Settings management  | Completed  |
-
-
+| /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Incomplete  |
+| /users/(User-ID)/notifications  | Notifications (Activity page)  | Incomplete  |
+| /users/(User-ID)/following  | Following Page  | Incomplete  |
+| /users/(User-ID)/followers [GET]  | Follower Page  | Incomplete  |
+| /users/(User-ID)/followers [POST]  | Follow a user  | Incomplete  |
+| /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Incomplete  |
 ## How to use?
 You need to install python, then just install the requirements.
 Requirements for this project are:
