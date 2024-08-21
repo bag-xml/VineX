@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="https://blog.bag-xml.com/amber/static/resources/vine-x-tweak.png" height="200" width="200">
+   <img src="https://blog.bag-xml.com/amber/static/resources/vine-x-tweak.png" height="160" width="160">
    <h1>VineX</h1>
 </div>
 
@@ -31,6 +31,13 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/authenticate [POST] | Login  | Completed  |
 | /users/authenticate [DELETE]  | Log-Out  | Completed  |
 | /users/forgotPassword  | Password reset  | Incomplete  |
+
+| User Endpoints  | Context | Status |
+| ------------- | ------------- | ------------- |
+| /users/profiles/(User-ID)  | User Profile  | Completed  |
+| /users/me | Userinfo retrieval  | Completed(?)  |
+| /users/(User-ID)  | Settings management  | Completed  |
+| /users/(User-ID)/preferences  | Settings management  | Completed  |
 
 
 ## How to use?
