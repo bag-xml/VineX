@@ -29,11 +29,9 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | ------------- | ------------- | ------------- |
 | /users  | Registration  | Completed  |
 | /users/authenticate [POST] | Login  | Completed  |
-| /users/authenticate [DELETE]  | Supported  | Untested  |
-| iOS 8  | Supported  | Untested  |
-| iOS 9  | Supported  | Untested  |
-| iOS 10  | Untested  | Untested  |
-| iOS 11  | Untested  | Untested  |
+| /users/authenticate [DELETE]  | Log-Out  | Completed  |
+| /users/forgotPassword  | Password reset  | Incomplete  |
+
 
 ## How to use?
 You need to install python, then just install the requirements.
