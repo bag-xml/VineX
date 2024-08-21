@@ -38,17 +38,17 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/me | Userinfo retrieval  | Completed(?)  |
 | /users/(User-ID)  | Settings management  | Completed  |
 | /users/(User-ID)/preferences  | Settings management  | Completed  |
-| /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Incomplete  |
-| /users/(User-ID)/notifications  | Notifications (Activity page)  | Incomplete  |
+| /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Being worked on  |
+| /users/(User-ID)/notifications  | Notifications (Activity page)  | Being worked on  |
 | /users/(User-ID)/following  | Following Page  | Incomplete  |
 | /users/search/(Search query)  | User search  | Incomplete  |
 | /users/(User-ID)/followers [GET]  | Follower Page  | Incomplete  |
-| /users/(User-ID)/followers [POST]  | Follow a user  | Incomplete  |
-| /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Incomplete  |
+| /users/(User-ID)/followers [POST]  | Follow a user  | Being worked on  |
+| /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Being worked on  |
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Incomplete  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Incomplete  |
 | /users/(User-ID)/complaints/  | File a complaint  | Incomplete  |
-| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Incomplete  |
+| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Complete  |
 
 
 | Timeline  | Context | Status |

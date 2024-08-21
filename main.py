@@ -6,7 +6,8 @@ import mysql.connector
 # own components
 from modules import authenticate
 from modules import find
-
+from modules import userActions
+from modules import notificationsManager
 from modules import timelineManager
 from modules import userManager
 import config
@@ -69,11 +70,29 @@ def manage_advanced_settings(user_id):
 @app.route('/users/<user_id>/following/suggested/contacts', methods=['PUT'])
 def addressBookInitialization(user_id):
     return find.addressBookIntegration()
-#Followers, and following, aswell as following
+
+# Notifications
+@app.route('/users/<user_id>/notifications', methods=['GET'])
+def initiateLoadNotifs(user_id):
+    return notificationsManager.loadNotifications(user_id)
+
+@app.route('/users/<user_id>/pendingNotificationsCount', methods=['GET'])
+def pendingNotifications(user_id):
+    return notificationsManager.retrievePendingNotifications(user_id)
+
+# User actions
+# Follow
+@app.route('/users/<user_id>/followers', methods=['POST'])
+def initFollow(user_id):
+    return userActions.followUser(user_id)
+
+@app.route('/users/<user_id>/followers', methods=['DELETE'])
+def initFollow(user_id):
+    return userActions.followUser(user_id)
+
 
 
 # timeline endpoints
-
 # user specific
 @app.route('/timelines/users/<user_id>/likes', methods=['GET'])
 def callLikePageFunction(user_id):
@@ -88,71 +107,6 @@ def callUserTimelineRetrieval(user_id):
 
 
 
-
-
-
-
-# experiment
-@app.route('/users/<user_id>/notifications', methods=['GET'])
-def sampleNotif(user_id):
-    response = {
-    "code": "",
-    "data": {
-        "count": 1,
-        "records": [
-            {
-                "body": "what the fuck",
-                "verified": 0,
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "notificationTypeId": 1,
-                "created": "2024-08-12T14:29:1.2",
-                "userId": 23,
-                "notificationId": 492792423,
-                "postId": 1
-            },
-            {
-                "body": "some user is now following you!",
-                "thumbnailUrl": "https://bag-xml.com/assets/img/discord.png", # Post thumbnail
-                "verified": 0,
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png", # User who triggered action
-                "notificationTypeId": 2,
-                "created": "2024-08-12T14:29:1.2",
-                "userId": 23,
-                "notificationId": 123456789,
-                "postId": 1
-            },
-            {
-                "body": "some user is now following you!",
-                "thumbnailUrl": "https://bag-xml.com/assets/img/discord.png", #righthand image
-                "verified": 0,
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "notificationTypeId": 3,
-                "created": "2024-08-12T14:29:1.2",
-                "userId": 23,
-                "notificationId": 123456789,
-                "postId": 1
-            }
-        ],
-        "nextPage": 1,
-        "previousPage": None,
-        "size": 250
-    },
-    "success": True,
-    "error": ""
-    }
-
-    return jsonify(response)
-
-@app.route('/users/<user_id>/pendingNotificationsCount', methods=['GET'])
-def samplePendingNotif(user_id):
-    response = {
-    "code": "",
-    "data": 1,
-    "success": True,
-    "error": ""
-    }
-
-    return jsonify(response)
 # Host
 if __name__ == '__main__':
     app.run(port=config.PORT, host="0.0.0.0", debug=False)
