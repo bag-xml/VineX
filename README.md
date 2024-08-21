@@ -48,17 +48,20 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Incomplete  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Incomplete  |
 | /users/(User-ID)/complaints/  | File a complaint  | Incomplete  |
+| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Incomplete  |
+
+
+| Timeline  | Context | Status |
+| ------------- | ------------- | ------------- |
+| /explore/(app version)  | Explore page  | Incomplete  |
 
 | Explore  | Context | Status |
 | ------------- | ------------- | ------------- |
 | /explore/(app version)  | Explore page  | Incomplete  |
-| /tags/search/(Search query)  | Hashtag search  | Incomplete  |
-| /users/search/(Search query)  | User search  | Incomplete  |
 
-| Find People  | Context | Status |
+| Tags  | Context | Status |
 | ------------- | ------------- | ------------- |
-| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Incomplete  |
-| /users/search/(Search query)  | User search  | Incomplete  |
+| /tags/search/(Search query)  | Hashtag search  | Incomplete  |
 
 ## How to use?
 You need to install python, then just install the requirements.
