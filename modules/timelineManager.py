@@ -29,3 +29,13 @@ def userTimeline(user_id):
     }
 
     return make_response(jsonify(response), 401)
+
+    """# timeline endpoints
+# user specific
+@app.route('/timelines/users/<user_id>/likes', methods=['GET'])
+def callLikePageFunction(user_id):
+    return timelineManager.userLikes(user_id)
+
+@app.route('/timelines/users/<user_id>', methods=['GET'])
+def callUserTimelineRetrieval(user_id):
+    return timelineManager.userLikes(user_id)"""

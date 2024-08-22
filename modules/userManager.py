@@ -11,7 +11,6 @@ def handleProfile(user_id):
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, promo FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
-
     if row is None:
         response = {
         "code": "",
@@ -21,11 +20,13 @@ def handleProfile(user_id):
         }
         return make_response(jsonify(response), 404)
 
+    #todo, "following", for that we'd need to get the json, extrapolate the id, compare it, and then add a "1", also block
     response = {
     "code": "",
     "data": {
         "username": row[0],
-        "following": row[1],
+        "following": 1, # TEST
+        "blocked": 0, # todo
         "followerCount": row[2],
         "verified": row[3],
         "description": row[4],
@@ -94,8 +95,79 @@ def handleMeRequest():
     
     return jsonify(response)
 
-# userpreferences segment
 
+
+# follower and following pages
+def followingPage(user_id):
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT following FROM users WHERE id = %s", (user_id,))
+    row = cursor.fetchone()
+
+    print(f"Foll: {row[0]}")
+    
+    response = {
+    "code": "",
+    "data": {
+        "count": 1,
+        "records": [
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.0"
+            },
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.1"
+            },
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.2"
+            }
+        ],
+        #"nextPage": 1,
+        #"previousPage": None,
+        #"size": 250
+    },
+    "success": True,
+    "error": ""
+    }
+    return jsonify(response)
+
+def followerPage(user_id):
+    response = {
+    "code": "",
+    "data": {
+        "count": 1,
+        "records": [
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.0"
+            },
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.1"
+            },
+            {
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "userId": 23,
+                "username": "iOS 3.2"
+            }
+        ],
+        #"nextPage": 1,
+        #"previousPage": None,
+        #"size": 250
+    },
+    "success": True,
+    "error": ""
+    }
+    return jsonify(response)
+
+
+# userpreferences segment
 def settings_management(user_id):
     form_data = request.form
 

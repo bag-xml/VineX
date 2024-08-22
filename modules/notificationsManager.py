@@ -21,6 +21,21 @@ def retrievePendingNotifications(user_id):
 def sendNotification(sender_id, target_ID, type):
     print(f"Preparing send of notification, by User {sender_id}, to {target_ID}, with the type {type}")
     return "what"
+
+    if type == 'FOLLOW':
+        # execute follow codeblock
+        return "a"
+    elif type == "UNFOLLOW":
+        return "b"
+    elif type == "COMMENT":
+        return "c"
+    elif type == "MENTION":
+        return "d"
+    elif type == "LIKE":
+        return "e"
+    else:
+        return "error"
+
 """
 def sampleNotif(user_id):
     response = {

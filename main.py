@@ -90,18 +90,23 @@ def initFollow(user_id):
 def initUnfollow(user_id):
     return userActions.unfollowUser(user_id)
 
+# Following, and follower pages
+@app.route('/users/<user_id>/following', methods=['GET'])
+def initFollowingPage(user_id):
+    return userManager.followingPage(user_id)
 
 
-# timeline endpoints
-# user specific
-@app.route('/timelines/users/<user_id>/likes', methods=['GET'])
-def callLikePageFunction(user_id):
-    return timelineManager.userLikes(user_id)
+@app.route('/users/<user_id>/followers', methods=['GET'])
+def initFollowerPage(user_id):
+    return userManager.followerPage(user_id)
 
-@app.route('/timelines/users/<user_id>', methods=['GET'])
-def callUserTimelineRetrieval(user_id):
-    return timelineManager.userLikes(user_id)
 
+
+
+# experiment
+@app.route('/explore', methods=['GET'])
+def sendExplore():
+    return app.send_static_file('index.html')
 
 
 

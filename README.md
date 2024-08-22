@@ -62,6 +62,9 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | ------------- | ------------- | ------------- |
 | /tags/search/(Search query)  | Hashtag search  | Incomplete  |
 
+## Bugs
+Improper saving to the MySQL Database
+
 ## How to use?
 You need to install python, then just install the requirements.
 Requirements for this project are:

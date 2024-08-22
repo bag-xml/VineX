@@ -81,20 +81,36 @@ def followUser(user_id):
 
     
 
-def unfollowUser(user_id):
-    """likerIdentifier = request.headers.get('vine-session-id')
-    print(f"{likerIdentifier} wants to follow user number {user_id}")
+def unfollowUser(user_id): #unfollower_id = user, user_id = target
+    likerIdentifier = request.headers.get('vine-session-id')
+    print(f"{likerIdentifier} wants to unfollow user number {user_id}")
+
     cursor = cnx.cursor(buffered=True)
-    cursor.execute("UPDATE users SET followerCount = followerCount + 1 WHERE id = %s", (user_id,))
-    cnx.commit()
-    cursor.close()"""
-    # todo, identify the person who liked, then call the notification sender function which will specify that user.
-    response = {
+    cursor.execute("SELECT id FROM users WHERE uniqueIdentifier = %s", (likerIdentifier,))
+    row = cursor.fetchone()
+
+    if row is None:
+        print("[User Action] User failed unfollowing, most likely wrong app version or corrupt session.")
+        response = {
+            "code": "",
+            "data": [],
+            "success": False,
+            "error": "An unexpected error has occurred"
+        }
+        return make_response(jsonify(response), 401)
+
+    unfollower_id = row[0]
+    print(f"yipee, new follower is {unfollower_id}")
+
+    # actual logic goes here:
+
+    # call the notifications manager
+    notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
+
+    successFeedback = {
     "code": "",
-    "data": 1,
+    "data": [],
     "success": True,
     "error": ""
     }
-    return jsonify(response)
-
-    #cursor.execute("UPDATE users SET followerCount = followerCount + 1 WHERE id = %s", (user_id,))
+    return jsonify(successFeedback)
