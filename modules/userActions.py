@@ -4,6 +4,8 @@ import mysql.connector
 import config
 import json
 
+from modules import notificationsManager
+
 cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
 
 # mayyybe redo this some time later in development idk???????????????????????????????????????????
@@ -25,7 +27,7 @@ def followUser(user_id):
             "error": "An unexpected error has occurred"
         }
         return make_response(jsonify(response), 401)
-    
+
     liker_ID = row[0]
     print(f"yipee, new follower is {liker_ID}")
 
@@ -64,8 +66,17 @@ def followUser(user_id):
             print("Adding account to following list")
             cursor.execute("UPDATE users SET following = %s, followingCount = followingCount + 1 WHERE id = %s", (updated_following_json, liker_ID))
             cnx.commit()
+    
+    # call the notifications manager
+    notificationsManager.sendNotification(liker_ID, user_id, type="FOLLOW")
 
-    return "aswadetgrrfzhrfgehtrhtrhrhh"
+    successFeedback = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+    return jsonify(successFeedback)
 
 
     

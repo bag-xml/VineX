@@ -18,7 +18,8 @@ def retrievePendingNotifications(user_id):
 
 
 
-def sendNotification(sender_id, target_ID):
+def sendNotification(sender_id, target_ID, type):
+    print(f"Preparing send of notification, by User {sender_id}, to {target_ID}, with the type {type}")
     return "what"
 """
 def sampleNotif(user_id):

@@ -63,6 +63,9 @@ def handleMeRequest():
         "error": "An unexpected error has occured"
         }
         return make_response(jsonify(response), 401)
+    
+    #todo: orga, and make sure tha tif its "0" to send nothing
+
     phone_number = str(row[8])
     response = {
     "code": "",
