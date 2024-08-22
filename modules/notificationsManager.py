@@ -18,7 +18,8 @@ def retrievePendingNotifications(user_id):
 
 
 
-
+def sendNotification(sender_id, target_ID):
+    return "what"
 """
 def sampleNotif(user_id):
     response = {

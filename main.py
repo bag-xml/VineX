@@ -87,8 +87,8 @@ def initFollow(user_id):
     return userActions.followUser(user_id)
 
 @app.route('/users/<user_id>/followers', methods=['DELETE'])
-def initFollow(user_id):
-    return userActions.followUser(user_id)
+def initUnfollow(user_id):
+    return userActions.unfollowUser(user_id)
 
 
 

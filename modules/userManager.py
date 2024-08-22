@@ -63,7 +63,7 @@ def handleMeRequest():
         "error": "An unexpected error has occured"
         }
         return make_response(jsonify(response), 401)
-
+    phone_number = str(row[8])
     response = {
     "code": "",
     "data": {
@@ -79,7 +79,7 @@ def handleMeRequest():
         "likeCount": row[6],
         "facebookConnected": 0,
         "postCount": row[7],
-        "phoneNumber": "Not Supported",
+        "phoneNumber": phone_number,
         "location": row[9],
         "followingCount": row[1],
         "includePromoted": row[12],
