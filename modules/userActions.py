@@ -100,19 +100,12 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     print(f'[User Actions Manager] User {unfollower_id} wants to unfollow {user_id}.')
 
     print(f'[User Actions Manager] Initiating database entry segment.')
-    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
-    follower_row = cursor.fetchone()
-    followers_json = follower_row[0]
-    followers_list = json.loads(followers_json)['followers']
     
-    if unfollower_id in followers_list:
-        followers_list.remove(unfollower_id)
-    updated_followers_json = json.dumps({"followers": followers_list})
 
     cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount - 1 WHERE id = %s", (updated_followers_json, user_id))
     cnx.commit()
 
-    cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
+    """cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
     following_row = cursor.fetchone()
     following_json = following_row[0]
     following_list = json.loads(following_json)['following']
@@ -121,8 +114,8 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
         following_list.remove(unfollower_id)
     updated_following_json = json.dumps({"following": following_list})
 
-    cursor.execute("UPDATE users SET followers = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
-    cnx.commit()
+    cursor.execute("UPDATE users SET following = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
+    cnx.commit()"""
 
     notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
     print(f'[User Actions Manager] Done removing follower')
@@ -192,29 +185,29 @@ def unblockUser(user_id, target_id):
 
 
 def fileComplaint(user_id):
-    print(f"{user_id}")
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    likerIdentifier = request.headers.get('vine-session-id')
+    cursor = cnx.cursor(buffered=True)
+
+    cursor.execute("SELECT username, id FROM users WHERE uniqueIdentifier = %s", (likerIdentifier,))
+    sender_row = cursor.fetchone()
+
+    cursor.execute("SELECT username, id FROM users WHERE id = %s", (user_id,))
+    recipient_row = cursor.fetchone()
+
+    print(f"[User Actions Manager] User {sender_row[0]} (User ID: {sender_row[1]}) filed a complaint against {recipient_row[0]} (User ID {recipient_row[1]})'s account. Please check later in the complaints pot!")
+
+    #todo, better complaint system. tables in db, and once the count reaches 10, by all different users, the account should be banned
+    with open("complaints.txt", "a") as file:
+        file.write(f"Complaint by User: {sender_row[0]} (User ID: {sender_row[1]}) against "
+                   f"User: {recipient_row[0]} (User ID: {recipient_row[1]})\n")
+
     response = {
     "code": "",
     "data": [],
     "success": True,
-    "error": "Sorry, this endpoint hasn't been engineered yet."
+    "error": ""
     }
 
     return make_response(jsonify(response), 201)
 
-    """
-    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
-    follower_row = cursor.fetchone()
-
-    if follower_row:
-        followers_json = follower_row[0] if follower_row[0] else '{"followers": []}'
-        followers_data = json.loads(followers_json)
-
-        if 'followers' not in followers_data or not isinstance(followers_data['followers'], list):
-            followers_data['followers'] = []
-
-        if liker_ID not in followers_data['followers']:
-            followers_data['followers'].append(liker_ID)
-            updated_followers_json = json.dumps(followers_data)
-            cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount + 1 WHERE id = %s", (updated_followers_json, user_id))
-            cnx.commit()"""

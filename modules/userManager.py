@@ -2,53 +2,104 @@ from typing import Union
 from flask import Flask, request, jsonify, make_response
 import mysql.connector
 import config
+import json
 
 
 # userinfo segment
 
 def handleProfile(user_id):
+    uniqueIdentifer = request.headers.get('vine-session-id')
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT id FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
+    user_check_row = cursor.fetchone()
+
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, promo FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
-    if row is None:
+
+    database_id = str(user_check_row[0])
+    userId = str(user_id)
+
+    if database_id == userId: # account belongs to user, this will load faster
+        print("Success!")
+        
         response = {
         "code": "",
-        "data": [],
-        "success": False,
-        "error": "An unexpected error has occured"
+        "data": {
+            "username": row[0],
+            "following": 0,
+            "blocked": 0,
+            "followerCount": row[2],
+            "verified": row[3],
+            "description": row[4],
+            "avatarUrl": row[5],
+            "twitterId": 0,
+            "userId": user_id,
+            "twitterConnected": 0,
+            "likeCount": row[6],
+            "facebookConnected": 0,
+            "postCount": row[7],
+            "phoneNumber": row[8],
+            "location": row[9],
+            "followingCount": row[1],
+            "includePromoted": row[11],
+            "email": row[10]
+        },
+        "success": True,
+        "error": ""
         }
-        return make_response(jsonify(response), 404)
+        return jsonify(response)
+    else:
+        cursor.execute("SELECT blocked, following FROM users WHERE id = %s", (database_id,))
+        listrows = cursor.fetchone()
+        isBlocked = False
+        isFollowing = False
 
-    #todo, "following", for that we'd need to get the json, extrapolate the id, compare it, and then add a "1", also block
-    response = {
-    "code": "",
-    "data": {
-        "username": row[0],
-        "following": 0, # TEST
-        "blocked": 0, # todo
-        "followerCount": row[2],
-        "verified": row[3],
-        "description": row[4],
-        "avatarUrl": row[5],
-        "twitterId": 0,
-        "userId": user_id,
-        "twitterConnected": 0,
-        "likeCount": row[6],
-        "facebookConnected": 0,
-        "postCount": row[7],
-        "phoneNumber": row[8],
-        "location": row[9],
-        "followingCount": row[1],
-        "includePromoted": row[11],
-        "email": row[10]
-    },
-    "success": True,
-    "error": ""
-    }
+        if listrows:
+            blocked_json, following_json = listrows
+            blocked_data = json.loads(blocked_json) if blocked_json else {"blocked": []}
+            following_data = json.loads(following_json) if following_json else {"following": []}
 
-    return jsonify(response)
+            if 'blocked' in blocked_data and isinstance(blocked_data['blocked'], list):
+                if user_id in blocked_data['blocked']:
+                    isBlocked = True
 
+            if 'following' in following_data and isinstance(following_data['following'], list):
+                if user_id in following_data['following']:
+                    print("following")
+                    isFollowing = True
+                if user_id not in following_data['following']:
+                    print("porn")
+
+
+        response = {
+        "code": "",
+        "data": {
+            "username": row[0],
+            "following": isFollowing,
+            "blocked": isBlocked,
+            "followerCount": row[2],
+            "verified": row[3],
+            "description": row[4],
+            "avatarUrl": row[5],
+            "twitterId": 0,
+            "userId": user_id,
+            "twitterConnected": 0,
+            "likeCount": row[6],
+            "facebookConnected": 0,
+            "postCount": row[7],
+            "phoneNumber": row[8],
+            "location": row[9],
+            "followingCount": row[1],
+            "includePromoted": row[11],
+            "email": row[10]
+        },
+        "success": True,
+        "error": ""
+        }
+        return jsonify(response)
+
+        
 
 def handleMeRequest():
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
