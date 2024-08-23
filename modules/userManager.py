@@ -3,11 +3,11 @@ from flask import Flask, request, jsonify, make_response
 import mysql.connector
 import config
 
-cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
 
 # userinfo segment
 
 def handleProfile(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, promo FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
@@ -51,6 +51,7 @@ def handleProfile(user_id):
 
 
 def handleMeRequest():
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     uniqueIdentifer = request.headers.get('vine-session-id')
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT username, followingCount, followerCount, isVerified, description, pfp, likeCount, postCount, phoneNumber, location, email, id, promo FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
@@ -99,12 +100,13 @@ def handleMeRequest():
 
 # follower and following pages
 def followingPage(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT following FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
 
     print(f"Foll: {row[0]}")
-    
+
     response = {
     "code": "",
     "data": {
@@ -169,6 +171,7 @@ def followerPage(user_id):
 
 # userpreferences segment
 def settings_management(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     form_data = request.form
 
     if 'username' in form_data:
@@ -299,6 +302,7 @@ def settings_management(user_id):
 
 
 def furtherSettingsManagement(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     form_data = request.form
     if 'includePromoted' in form_data:
         cursor = cnx.cursor(buffered=True)

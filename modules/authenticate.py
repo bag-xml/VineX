@@ -8,11 +8,9 @@ import uuid
 from typing import Union
 from flask import Flask, request, jsonify, make_response
 
-# start mysql connection
-cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
-
 
 def create_user():
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     print("[Registration] Registration segment initiated")
     # specified data
     authBool = request.form.get('authenticate')
@@ -83,6 +81,7 @@ def create_user():
 
 
 def login():
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     print("[Login] User wants to log in")
     # specified data
     email = request.form.get('username')

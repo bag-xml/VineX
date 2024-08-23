@@ -4,8 +4,40 @@ import mysql.connector
 import config
 
 
-def loadNotifications(user_id):
-    return "null"
+def displayNotifications(user_id):
+    entity = int('1')
+    response = {
+    "code": "",
+    "data": {
+        "count": 1,
+        "records": [
+            {
+                "body": "what the fuck",
+                "username": "wtf",
+                "userName": "mf",
+                "Username": "aweff",
+                "text": "aweff",
+                "Body": "aweff",
+                "entities": entity,
+                "message": "pseubff",
+                "Message": "re4w2fefwefewf",
+                "verified": 0,
+                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "notificationTypeId": 1,
+                "created": "2024-08-12T14:29:1.2",
+                "userId": 23,
+                "notificationId": 492792423,
+            }
+        ],
+        "nextPage": 1,
+        "previousPage": None,
+        "size": 250
+    },
+    "success": True,
+    "error": ""
+    }
+
+    return jsonify(response)
 
 def retrievePendingNotifications(user_id):
     response = {
@@ -20,7 +52,6 @@ def retrievePendingNotifications(user_id):
 
 def sendNotification(sender_id, target_ID, type):
     print(f"Preparing send of notification, by User {sender_id}, to {target_ID}, with the type {type}")
-    return "what"
 
     if type == 'FOLLOW':
         # execute follow codeblock

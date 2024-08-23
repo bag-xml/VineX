@@ -74,7 +74,7 @@ def addressBookInitialization(user_id):
 # Notifications
 @app.route('/users/<user_id>/notifications', methods=['GET'])
 def initiateLoadNotifs(user_id):
-    return notificationsManager.loadNotifications(user_id)
+    return notificationsManager.displayNotifications(user_id)
 
 @app.route('/users/<user_id>/pendingNotificationsCount', methods=['GET'])
 def pendingNotifications(user_id):
@@ -99,15 +99,6 @@ def initFollowingPage(user_id):
 @app.route('/users/<user_id>/followers', methods=['GET'])
 def initFollowerPage(user_id):
     return userManager.followerPage(user_id)
-
-
-
-
-# experiment
-@app.route('/explore', methods=['GET'])
-def sendExplore():
-    return app.send_static_file('index.html')
-
 
 
 

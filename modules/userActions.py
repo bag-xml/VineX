@@ -6,10 +6,10 @@ import json
 
 from modules import notificationsManager
 
-cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
 
 # mayyybe redo this some time later in development idk???????????????????????????????????????????
 def followUser(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     likerIdentifier = request.headers.get('vine-session-id')
     print(f"{likerIdentifier} wants to follow user number {user_id}")
     cursor = cnx.cursor(buffered=True)
@@ -82,6 +82,7 @@ def followUser(user_id):
     
 
 def unfollowUser(user_id): #unfollower_id = user, user_id = target
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     likerIdentifier = request.headers.get('vine-session-id')
     print(f"{likerIdentifier} wants to unfollow user number {user_id}")
 
@@ -100,9 +101,25 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
         return make_response(jsonify(response), 401)
 
     unfollower_id = row[0]
-    print(f"yipee, new follower is {unfollower_id}")
+    print(f"sadge, new unfollower is {unfollower_id}")
 
     # actual logic goes here:
+    print("logic exec 1")
+    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
+    follower_row = cursor.fetchone()
+    followers_json = follower_row[0]
+
+    followers_list = json.loads(followers_json)['followers']
+    
+    # Remove the unfollower_id from the list
+    if unfollower_id in followers_list:
+        followers_list.remove(unfollower_id)
+    updated_followers_json = json.dumps({"followers": followers_list})
+    print("logic exec 2")
+
+    cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount - 1 WHERE id = %s", (updated_followers_json, user_id))
+    print("logic exec 1")
+    cnx.commit()
 
     # call the notifications manager
     notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
