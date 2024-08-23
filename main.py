@@ -90,6 +90,24 @@ def initFollow(user_id):
 def initUnfollow(user_id):
     return userActions.unfollowUser(user_id)
 
+@app.route('/users/<user_id>/blocked/<target_id>', methods=['POST'])
+def initBlock(user_id, target_id):
+    return userActions.blockUser(user_id, target_id)
+
+@app.route('/users/<user_id>/blocked/<target_id>', methods=['DELETE'])
+def initUnblock(user_id, target_id):
+    return userActions.unblockUser(user_id, target_id)
+
+
+@app.route('/users/<user_id>/complaints', methods=['POST'])
+def complaint(user_id):
+    return userActions.fileComplaint(user_id)
+
+
+
+
+
+
 # Following, and follower pages
 @app.route('/users/<user_id>/following', methods=['GET'])
 def initFollowingPage(user_id):

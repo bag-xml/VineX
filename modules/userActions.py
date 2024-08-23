@@ -120,10 +120,8 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     if unfollower_id in following_list:
         following_list.remove(unfollower_id)
     updated_following_json = json.dumps({"following": following_list})
-    print("logic exec 2")
 
     cursor.execute("UPDATE users SET followers = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
-    print("logic exec 1")
     cnx.commit()
 
     notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
@@ -136,3 +134,87 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     "error": ""
     }
     return jsonify(successFeedback)
+
+
+def blockUser(user_id, target_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT blocked FROM users WHERE id = %s", (user_id,))
+    blocked_row = cursor.fetchone()
+    if blocked_row:
+        blocklist_json = blocked_row[0] if blocked_row[0] else '{"blocked": []}'
+        blocked_data = json.loads(blocklist_json)
+
+        if 'blocked' not in blocked_data or not isinstance(blocked_data['blocked'], list):
+            blocked_data['blocked'] = []
+
+        if target_id not in blocked_data['blocked']:
+            blocked_data['blocked'].append(target_id)
+            final_blocklist_json = json.dumps(blocked_data)
+            cursor.execute("UPDATE users SET blocked = %s WHERE id = %s", (final_blocklist_json, user_id))
+            cnx.commit()
+
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+
+    return make_response(jsonify(response), 201)
+
+
+def unblockUser(user_id, target_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT blocked FROM users WHERE id = %s", (user_id,))
+    blocked_row = cursor.fetchone()
+    blocklist_json = blocked_row[0]
+    blocked_list = json.loads(blocklist_json)['blocked']
+    
+    if target_id in blocked_list:
+        blocked_list.remove(target_id)
+    final_blocklist_json = json.dumps({"blocked": blocked_list})
+
+    cursor.execute("UPDATE users SET blocked = %s WHERE id = %s", (final_blocklist_json, user_id))
+    cnx.commit()
+
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+
+    return make_response(jsonify(response), 201)
+
+
+
+
+def fileComplaint(user_id):
+    print(f"{user_id}")
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": "Sorry, this endpoint hasn't been engineered yet."
+    }
+
+    return make_response(jsonify(response), 201)
+
+    """
+    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
+    follower_row = cursor.fetchone()
+
+    if follower_row:
+        followers_json = follower_row[0] if follower_row[0] else '{"followers": []}'
+        followers_data = json.loads(followers_json)
+
+        if 'followers' not in followers_data or not isinstance(followers_data['followers'], list):
+            followers_data['followers'] = []
+
+        if liker_ID not in followers_data['followers']:
+            followers_data['followers'].append(liker_ID)
+            updated_followers_json = json.dumps(followers_data)
+            cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount + 1 WHERE id = %s", (updated_followers_json, user_id))
+            cnx.commit()"""
