@@ -47,8 +47,8 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Completed  |
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Completed  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Completed  |
-| /users/(User-ID)/complaints/  | File a complaint  | Being worked on  |
-| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Complete  |
+| /users/(User-ID)/complaints/  | File a complaint  | Completed  |
+| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Completed  |
 
 
 | Timeline  | Context | Status |

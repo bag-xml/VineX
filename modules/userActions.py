@@ -100,22 +100,31 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     print(f'[User Actions Manager] User {unfollower_id} wants to unfollow {user_id}.')
 
     print(f'[User Actions Manager] Initiating database entry segment.')
-    
 
-    cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount - 1 WHERE id = %s", (updated_followers_json, user_id))
+    cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
+    following_row = cursor.fetchone()
+    followlist_json = following_row[0]
+    followed_list = json.loads(followlist_json)['following']
+    
+    if user_id in followed_list:
+        followed_list.remove(user_id)
+    final_followed_list_json = json.dumps({"following": followed_list})
+
+    cursor.execute("UPDATE users SET following = %s, followingCount = followingCount - 1 WHERE id = %s", (final_followed_list_json, unfollower_id))
     cnx.commit()
 
-    """cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
-    following_row = cursor.fetchone()
-    following_json = following_row[0]
-    following_list = json.loads(following_json)['following']
+    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
+    followers_row = cursor.fetchone()
+    followersList_json = followers_row[0]
+    follower_list = json.loads(followersList_json)['followers']
     
-    if unfollower_id in following_list:
-        following_list.remove(unfollower_id)
-    updated_following_json = json.dumps({"following": following_list})
+    if unfollower_id in follower_list:
+        follower_list.remove(unfollower_id)
+    final_follower_list_json = json.dumps({"followers": follower_list})
 
-    cursor.execute("UPDATE users SET following = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
-    cnx.commit()"""
+    cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount - 1 WHERE id = %s", (final_follower_list_json, user_id))
+    cnx.commit()
+
 
     notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
     print(f'[User Actions Manager] Done removing follower')
@@ -211,3 +220,15 @@ def fileComplaint(user_id):
 
     return make_response(jsonify(response), 201)
 
+""" cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
+    following_row = cursor.fetchone()
+    following_json = following_row[0]
+    following_list = json.loads(following_json)['following']
+    
+    if unfollower_id in following_list:
+        following_list.remove(unfollower_id)
+    updated_following_json = json.dumps({"following": following_list})
+
+    cursor.execute("UPDATE users SET following = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
+    cnx.commit()
+"""
