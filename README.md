@@ -43,8 +43,8 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)/following  | Following Page  | Being worked on  |
 | /users/search/(Search query)  | User search  | Incomplete  |
 | /users/(User-ID)/followers [GET]  | Follower Page  | Being worked on  |
-| /users/(User-ID)/followers [POST]  | Follow a user  | Working  |
-| /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Working  |
+| /users/(User-ID)/followers [POST]  | Follow a user  | Completed  |
+| /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Completed  |
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Incomplete  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Incomplete  |
 | /users/(User-ID)/complaints/  | File a complaint  | Incomplete  |
