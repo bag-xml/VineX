@@ -11,7 +11,6 @@ from modules import notificationsManager
 def followUser(user_id):
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     likerIdentifier = request.headers.get('vine-session-id')
-    print(f"{likerIdentifier} wants to follow user number {user_id}")
     cursor = cnx.cursor(buffered=True)
     
     # turn the session id into the user id
@@ -29,9 +28,9 @@ def followUser(user_id):
         return make_response(jsonify(response), 401)
 
     liker_ID = row[0]
-    print(f"yipee, new follower is {liker_ID}")
-
-    # Follower segment of user_id aka the account that the user wants to follow
+    print(f'[User Actions Manager] User {liker_ID} wants to follow {user_id}.')
+    
+    print(f'[User Actions Manager] Initiating database entry segment.')
     cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
     follower_row = cursor.fetchone()
 
@@ -108,16 +107,30 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
     follower_row = cursor.fetchone()
     followers_json = follower_row[0]
-
     followers_list = json.loads(followers_json)['followers']
     
-    # Remove the unfollower_id from the list
     if unfollower_id in followers_list:
         followers_list.remove(unfollower_id)
     updated_followers_json = json.dumps({"followers": followers_list})
     print("logic exec 2")
 
     cursor.execute("UPDATE users SET followers = %s, followerCount = followerCount - 1 WHERE id = %s", (updated_followers_json, user_id))
+    print("logic exec 1")
+    cnx.commit()
+
+    # i hate this
+    print("logic exec 2")
+    cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
+    following_row = cursor.fetchone()
+    following_json = following_row[0]
+    following_list = json.loads(following_json)['following']
+    
+    if unfollower_id in following_list:
+        following_list.remove(unfollower_id)
+    updated_following_json = json.dumps({"following": following_list})
+    print("logic exec 2")
+
+    cursor.execute("UPDATE users SET followers = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
     print("logic exec 1")
     cnx.commit()
 

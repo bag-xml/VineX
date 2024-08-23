@@ -25,7 +25,7 @@ def handleProfile(user_id):
     "code": "",
     "data": {
         "username": row[0],
-        "following": 1, # TEST
+        "following": 0, # TEST
         "blocked": 0, # todo
         "followerCount": row[2],
         "verified": row[3],
