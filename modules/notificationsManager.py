@@ -14,35 +14,41 @@ def displayNotifications(user_id):
 
 
     response = {
-    "code": "",
-    "data": {
-        "count": 1,
-        "records": [
-            {
-                "body": "what the fuck",
-                "username": "wtf",
-                "verified": 0,
-                "avatarUrl": "http://vine-x.bag-xml.com/static/pfps/7bc6c93de0ad70ec51a42f5c6277be2496d4c90b0a4ad00b726f096d0e661797.png",
-                "notificationTypeId": 1,
-                "created": "2024-08-24T15:39:59.99408",
-                "userId": 23,
-                "notificationId": 492792423,
-            }
-        ],
-        "nextPage": 1,
-        "previousPage": None,
-        "size": 250
-    },
-    "success": True,
-    "error": ""
+        "code": "",
+        "data": {
+            "count": 0,
+            "records": [],
+            "nextPage": 1,
+            "previousPage": None,
+            "size": 250
+        },
+        "success": True,
+        "error": ""
     }
+
+    for row in sender_row:
+        response["data"]["count"] += 1
+        response["data"]["records"].append({
+            "body": row[7],
+            "username": row[6],
+            "verified": 0,
+            "avatarUrl": "", # Fill in plox
+            "notificationTypeId": row[1],
+            "created": row[8],
+            "userId": row[2],
+            "notificationId": row[0],
+        })
 
     return jsonify(response)
 
 def retrievePendingNotifications(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT pending_notifications_count FROM users WHERE id = %s", (user_id,))
+    row = cursor.fetchone()
     response = {
     "code": "",
-    "data": 1,
+    "data": row[0],
     "success": True,
     "error": ""
     }
@@ -65,6 +71,7 @@ def sendNotification(sender_id, target_ID, type):
         notificationTypeID = int(1)
         notificationMessage = str("started to follow you!")
         cursor.execute("INSERT INTO notifications (userID, authorID, notificationType, avatarURL, creationDate, message, sender_username) VALUES (%s, %s, %s, %s, %s, %s, %s)", (target_ID, sender_id, notificationTypeID, sender_row[0], timeOfPush, notificationMessage, sender_row[1]))
+        cursor.execute("UPDATE users SET pending_notifications_count = pending_notifications_count + 1 WHERE id = %s", (target_ID,))  # Note the comma here
         cnx.commit()
         cursor.close()
 

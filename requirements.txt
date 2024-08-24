@@ -1,2 +1,4 @@
 flask
+bcrypt
+requests
 mysql-connector-python
