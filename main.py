@@ -33,7 +33,6 @@ def initiate_usercreation():
 def initiate_login():
     return authenticate.login()
 
-
 # logout
 @app.route('/users/authenticate', methods=['DELETE'])
 def initiate_logout():
@@ -52,10 +51,11 @@ def initHPF(user_id):
 def initMeRequest():
     return userManager.handleMeRequest()
 
-"""# Profile picture uploading
-@app.route('/avatars<file>', methods=['PUT'])
-def manage_user_upload(file):
-    return userManager.setPFP(file)"""
+
+@app.route('/avatars/<path:filename>', methods=['PUT'])
+def manage_user_upload(filename):
+    file_data = request.data
+    return userManager.setPFP(filename, file_data)
 
 # Preference Management
 @app.route('/users/<user_id>', methods=['PUT'])
@@ -80,8 +80,8 @@ def initiateLoadNotifs(user_id):
 def pendingNotifications(user_id):
     return notificationsManager.retrievePendingNotifications(user_id)
 
+
 # User actions
-# Follow
 @app.route('/users/<user_id>/followers', methods=['POST'])
 def initFollow(user_id):
     return userActions.followUser(user_id)
@@ -98,14 +98,9 @@ def initBlock(user_id, target_id):
 def initUnblock(user_id, target_id):
     return userActions.unblockUser(user_id, target_id)
 
-
 @app.route('/users/<user_id>/complaints', methods=['POST'])
 def complaint(user_id):
     return userActions.fileComplaint(user_id)
-
-
-
-
 
 
 # Following, and follower pages

@@ -343,5 +343,5 @@ def furtherSettingsManagement(user_id):
         return make_response(jsonify(response), 201)
 
 # need to engineer this still
-def setPFP(file):
-    return (f"hi {file}")
+def setPFP(filename, file_data):
+    return "A"

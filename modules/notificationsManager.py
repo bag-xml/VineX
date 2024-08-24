@@ -6,6 +6,13 @@ import config
 
 
 def displayNotifications(user_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT * FROM notifications WHERE userID = %s", (user_id,))
+    sender_row = cursor.fetchall()
+
+
+
     response = {
     "code": "",
     "data": {
@@ -15,9 +22,9 @@ def displayNotifications(user_id):
                 "body": "what the fuck",
                 "username": "wtf",
                 "verified": 0,
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
+                "avatarUrl": "http://vine-x.bag-xml.com/static/pfps/7bc6c93de0ad70ec51a42f5c6277be2496d4c90b0a4ad00b726f096d0e661797.png",
                 "notificationTypeId": 1,
-                "created": "2024-08-24T05:29:1.2",
+                "created": "2024-08-24T15:39:59.99408",
                 "userId": 23,
                 "notificationId": 492792423,
             }
@@ -50,9 +57,9 @@ def sendNotification(sender_id, target_ID, type):
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT pfp, username FROM users WHERE id = %s", (sender_id,))
     sender_row = cursor.fetchone()
-    
+
     time = datetime.now()
-    timeOfPush = time.strftime("%Y-%m-%dT%H:%M:1.2")
+    timeOfPush = time.strftime("%Y-%m-%dT%H:%M:%S.%f")
 
     if type == 'FOLLOW':
         notificationTypeID = int(1)

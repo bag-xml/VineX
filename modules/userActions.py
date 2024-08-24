@@ -219,16 +219,3 @@ def fileComplaint(user_id):
     }
 
     return make_response(jsonify(response), 201)
-
-""" cursor.execute("SELECT following FROM users WHERE id = %s", (unfollower_id,))
-    following_row = cursor.fetchone()
-    following_json = following_row[0]
-    following_list = json.loads(following_json)['following']
-    
-    if unfollower_id in following_list:
-        following_list.remove(unfollower_id)
-    updated_following_json = json.dumps({"following": following_list})
-
-    cursor.execute("UPDATE users SET following = %s, followingCount = followingCount - 1 WHERE id = %s", (updated_following_json, unfollower_id))
-    cnx.commit()
-"""
