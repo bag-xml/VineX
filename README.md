@@ -15,10 +15,10 @@ VineX will come with a tweak too, which'll support the following iOS versions:
 | iOS Version  | Support status |
 | ------------- | ------------- |
 | iOS 5  | Not supported  |
-| iOS 6  | Supported  |
-| iOS 7  | Supported  |
-| iOS 8  | Supported  |
-| iOS 9  | Supported  |
+| iOS 6  | Supported :: Tested  |
+| iOS 7  | Supported :: Tested  |
+| iOS 8  | Untested  |
+| iOS 9  | Untested  |
 | iOS 10  | Untested  |
 | iOS 11  | Untested  |
 
@@ -48,7 +48,7 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Completed  |
 | /users/(User-ID)/blocked/(Target-User-ID) [DELETE]  | Unblock a user  | Completed  |
 | /users/(User-ID)/complaints/  | File a complaint  | Completed  |
-| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Completed  |
+| /users/(User-ID)/following/suggested/contacts  | Address Book integration  | Incomplete  |
 
 
 | Timeline  | Context | Status |

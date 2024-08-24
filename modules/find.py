@@ -1,10 +1,6 @@
 # People-finder page
-
 from typing import Union
 from flask import Flask, request, jsonify, make_response
-import mysql.connector
-import uuid
-import config
 
 
 

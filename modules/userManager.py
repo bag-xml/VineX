@@ -148,40 +148,22 @@ def handleMeRequest():
     return jsonify(response)
 
 
-
 # follower and following pages
 def followingPage(user_id):
-    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
-    cursor = cnx.cursor(buffered=True)
-    cursor.execute("SELECT following FROM users WHERE id = %s", (user_id,))
-    row = cursor.fetchone()
-
-    print(f"Foll: {row[0]}")
-
     response = {
     "code": "",
     "data": {
         "count": 1,
         "records": [
             {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.0"
-            },
-            {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.1"
-            },
-            {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.2"
+                "avatarUrl": "http://vine-x.bag-xml.com/static/pfps/7bc6c93de0ad70ec51a42f5c6277be2496d4c90b0a4ad00b726f096d0e661797.png",
+                "userId": 20,
+                "username": "Not yet supported"
             }
         ],
-        #"nextPage": 1,
-        #"previousPage": None,
-        #"size": 250
+        "nextPage": None,
+        "previousPage": None,
+        "size": 250
     },
     "success": True,
     "error": ""
@@ -195,24 +177,14 @@ def followerPage(user_id):
         "count": 1,
         "records": [
             {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.0"
-            },
-            {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.1"
-            },
-            {
-                "avatarUrl": "https://blog.bag-xml.com/assets/img/ios3.png",
-                "userId": 23,
-                "username": "iOS 3.2"
+                "avatarUrl": "http://vine-x.bag-xml.com/static/pfps/7bc6c93de0ad70ec51a42f5c6277be2496d4c90b0a4ad00b726f096d0e661797.png",
+                "userId": 20,
+                "username": "Not yet supported"
             }
         ],
-        #"nextPage": 1,
-        #"previousPage": None,
-        #"size": 250
+        "nextPage": None,
+        "previousPage": None,
+        "size": 250
     },
     "success": True,
     "error": ""
