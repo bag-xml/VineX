@@ -114,7 +114,10 @@ def initFollowerPage(user_id):
     return userManager.followerPage(user_id)
 
 
-
+# Search
+@app.route('/users/search/<query>', methods=['GET'])
+def initUserSearch(query):
+    return userManager.searchForUser(query)
 
 # Host
 if __name__ == '__main__':

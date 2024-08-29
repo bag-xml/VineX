@@ -66,10 +66,9 @@ def handleProfile(user_id):
 
             if 'following' in following_data and isinstance(following_data['following'], list):
                 if user_id in following_data['following']:
-                    print("following")
                     isFollowing = True
                 if user_id not in following_data['following']:
-                    print("porn")
+                    isFollowing = False
 
 
         response = {
@@ -184,13 +183,13 @@ def followingPage(user_id):
 
 
             for user in followed_users:
-
+                target_id = user[0]
                 fol_json = user[3]
                 following_data = json.loads(fol_json) if fol_json else {"following": []}
                 if 'following' in following_data and isinstance(following_data['following'], list):
-                    if user_id in following_data['following']:
+                    if target_id in following_data['following']:
                         isFollowing = True
-                    if user_id not in following_data['following']:
+                    if target_id not in following_data['following']:
                         isFollowing = False
 
                 response["data"]["count"] += 1
@@ -209,7 +208,7 @@ def followingPage(user_id):
 def followerPage(user_id):
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
-    cursor.execute("SELECT followers FROM users WHERE id = %s", (user_id,))
+    cursor.execute("SELECT followers, following FROM users WHERE id = %s", (user_id,))
     row = cursor.fetchone()
 
 
@@ -241,13 +240,13 @@ def followerPage(user_id):
 
 
             for user in follower_users:
-
-                fol_json = user[3]
+                target_id = user[0]
+                fol_json = row[1]
                 follow_data = json.loads(fol_json) if fol_json else {"following": []}
                 if 'following' in follow_data and isinstance(follow_data['following'], list):
-                    if user_id in follow_data['following']:
+                    if target_id in follow_data['following']:
                         isFollowing = True
-                    if user_id not in follow_data['following']:
+                    if target_id not in follow_data['following']:
                         isFollowing = False
 
                 response["data"]["count"] += 1
@@ -262,6 +261,43 @@ def followerPage(user_id):
     
     # Return the response as JSON
     return jsonify(response)
+
+
+
+def searchForUser(query):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT * FROM users WHERE username LIKE %s", (f"%{query}%",))
+    user_row = cursor.fetchall()
+
+    uniqueIdentifer = request.headers.get('vine-session-id')
+    cursor.execute("SELECT username, following FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
+    foll = cursor.fetchone()
+
+    response = {
+        "code": "",
+        "data": {
+            "count": 0,
+            "records": [],
+            "nextPage": 1,
+            "previousPage": None,
+            "size": 250
+        },
+        "success": True,
+        "error": ""
+    }
+
+    for row in user_row:
+        response["data"]["count"] += 1
+        response["data"]["records"].append({
+            "username": row[5],
+            "avatarUrl": row[7],
+            "userId": row[0],
+            "following": 0
+        })
+    return jsonify(response)
+
+
 # userpreferences segment
 def settings_management(user_id):
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)

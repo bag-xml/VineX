@@ -35,14 +35,14 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | User Endpoints  | Context | Status |
 | ------------- | ------------- | ------------- |
 | /users/profiles/(User-ID)  | User Profile  | Completed  |
-| /users/me | Userinfo retrieval  | Completed(?)  |
+| /users/me | Userinfo retrieval  | Completed  |
 | /users/(User-ID)  | Settings management  | Completed  |
 | /users/(User-ID)/preferences  | Settings management  | Completed  |
-| /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Being worked on  |
-| /users/(User-ID)/notifications  | Notifications (Activity page)  | Being worked on  |
-| /users/(User-ID)/following  | Following Page  | Being worked on  |
-| /users/search/(Search query)  | User search  | Incomplete  |
-| /users/(User-ID)/followers [GET]  | Follower Page  | Being worked on  |
+| /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Completed  |
+| /users/(User-ID)/notifications  | Notifications (Activity page)  | Awkward  |
+| /users/(User-ID)/following  | Following Page  | Completed  |
+| /users/search/(Search query)  | User search  | Completed  |
+| /users/(User-ID)/followers [GET]  | Follower Page  | Completed  |
 | /users/(User-ID)/followers [POST]  | Follow a user  | Completed  |
 | /users/(User-ID)/followers [DELETE]  | Unfollow a user  | Completed  |
 | /users/(User-ID)/blocked/(Target-User-ID) [POST]  | Block a user  | Completed  |
