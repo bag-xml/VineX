@@ -52,7 +52,12 @@ def retrievePendingNotifications(user_id):
     "success": True,
     "error": ""
     }
+
+    cursor.execute("UPDATE users SET pending_notifications_count = 0 WHERE id = %s", (user_id,))
+    cnx.commit()
+    cursor.close()
     return jsonify(response)
+    
 
 
 
