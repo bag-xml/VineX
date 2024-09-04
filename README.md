@@ -17,8 +17,8 @@ VineX will come with a tweak too, which'll support the following iOS versions:
 | iOS 5  | Not supported  |
 | iOS 6  | Supported :: Tested  |
 | iOS 7  | Supported :: Tested  |
-| iOS 8  | Untested  |
-| iOS 9  | Untested  |
+| iOS 8  | Supported :: Tested  |
+| iOS 9  | Supported :: Tested  |
 | iOS 10  | Untested  |
 | iOS 11  | Untested  |
 
