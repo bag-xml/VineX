@@ -219,3 +219,90 @@ def fileComplaint(user_id):
     }
 
     return make_response(jsonify(response), 201)
+
+
+
+
+
+
+
+
+
+
+# ::post actions
+
+def likePost(post_id):
+    userIdentifier = request.headers.get('vine-session-id')
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT likedPosts, id FROM users WHERE uniqueIdentifier = %s", (userIdentifier,))
+    liked_row = cursor.fetchone()
+
+
+    if liked_row:
+        likedlist_json = liked_row[0] if liked_row[0] else '{"liked_posts": []}'
+        liked_data = json.loads(likedlist_json)
+
+        if 'liked_posts' not in liked_data or not isinstance(liked_data['liked_posts'], list):
+            liked_data['liked_posts'] = []
+
+        if post_id not in liked_data['liked_posts']:
+            liked_data['liked_posts'].append(post_id)
+            final_likelist_json = json.dumps(liked_data)
+            cursor.execute("UPDATE users SET likedPosts = %s, likeCount = likeCount + 1 WHERE uniqueIdentifier = %s", (final_likelist_json, userIdentifier))
+            cnx.commit()
+
+    # on the post's entry, update the users who actually like the post. for the list
+    cursor.execute("SELECT usersWhoLiked FROM posts WHERE postID = %s", (post_id,))
+    like_row = cursor.fetchone()
+    user_id = like_row[1]
+    if like_row:
+        likelist_json = like_row[0] if like_row[0] else '{"liked": []}'
+        like_data = json.loads(likelist_json)
+
+        if 'liked' not in like_data or not isinstance(like_data['liked'], list):
+            like_data['liked'] = []
+
+        if user_id not in like_data['liked']:
+            like_data['liked'].append(user_id)
+            final_likerlist_json = json.dumps(like_data)
+            cursor.execute("UPDATE posts SET usersWhoLiked = %s WHERE postID = %s", (final_likerlist_json, post_id))
+            cnx.commit()
+
+
+
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+
+    return make_response(jsonify(response), 201)
+
+
+def unlikePost(post_id):
+    userIdentifier = request.headers.get('vine-session-id')
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT likedPosts FROM users WHERE uniqueIdentifier = %s", (userIdentifier,))
+    liked_row = cursor.fetchone()
+
+    likelist_json = liked_row[0]
+    liked_list = json.loads(likelist_json)['liked_posts']
+    
+    if post_id in liked_list:
+        liked_list.remove(post_id)
+    final_likelist_json = json.dumps({"liked_posts": liked_list})
+
+    cursor.execute("UPDATE users SET likedPosts = %s, likeCount = likeCount - 1  WHERE uniqueIdentifier = %s", (final_likelist_json, userIdentifier))
+    cnx.commit()
+
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+
+    return make_response(jsonify(response), 201)

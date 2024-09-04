@@ -32,10 +32,10 @@ def displayNotifications(user_id):
             "body": row[7],
             "username": row[6],
             "verified": 0,
-            "avatarUrl": "", # Fill in plox
+            "avatarUrl": row[9],
             "notificationTypeId": row[1],
             "created": row[8],
-            "userId": row[2],
+            "userId": row[3],
             "notificationId": row[0],
         })
 
@@ -68,6 +68,7 @@ def sendNotification(sender_id, target_ID, type):
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT pfp, username FROM users WHERE id = %s", (sender_id,))
     sender_row = cursor.fetchone()
+    print(f"asderfieopkorgihofjek {sender_row[0]}")
 
     time = datetime.now()
     timeOfPush = time.strftime("%Y-%m-%dT%H:%M:%S.%f")

@@ -39,8 +39,7 @@ def initiate_logout():
     return authenticate.logout()
 
 
-
-# User and Settings endpoints
+## Users Endpoints ##
 # Profile
 @app.route('/users/profiles/<user_id>', methods=['GET'])
 def initHPF(user_id):
@@ -108,7 +107,6 @@ def complaint(user_id):
 def initFollowingPage(user_id):
     return userManager.followingPage(user_id)
 
-
 @app.route('/users/<user_id>/followers', methods=['GET'])
 def initFollowerPage(user_id):
     return userManager.followerPage(user_id)
@@ -118,6 +116,42 @@ def initFollowerPage(user_id):
 @app.route('/users/search/<query>', methods=['GET'])
 def initUserSearch(query):
     return userManager.searchForUser(query)
+
+
+
+## Explore page ##
+@app.route('/explore', methods=['GET'])
+def sendPage():
+    return app.send_static_file('index.html'), 200
+
+
+## Timeline endpoints ##
+"""@app.route('/timelines/graph', methods=['GET'])
+def retrieveFeedPage():
+    return timelineManager.sampleRetrieve()"""
+ 
+ 
+ #/timelines/users/1/likes
+@app.route('/timelines/users/<user_id>', methods=['GET'])
+def retrieveUserFeedPage(user_id):
+    return timelineManager.userTimeline(user_id)
+
+@app.route('/timelines/users/<user_id>/likes', methods=['GET'])
+def retrieveUserLPosts(user_id):
+    return timelineManager.userLikes(user_id)
+
+
+
+
+# user actions
+# ::like
+@app.route('/posts/<post_id>/likes', methods=['POST'])
+def likeAPost(post_id):
+    return userActions.likePost(post_id)
+
+@app.route('/posts/<post_id>/likes', methods=['DELETE'])
+def unlikeAPost(post_id):
+    return userActions.unlikePost(post_id)
 
 # Host
 if __name__ == '__main__':
