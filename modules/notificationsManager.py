@@ -18,7 +18,7 @@ def displayNotifications(user_id):
         "data": {
             "count": 0,
             "records": [],
-            "nextPage": 1,
+            "nextPage": None,
             "previousPage": None,
             "size": 250
         },
@@ -80,6 +80,7 @@ def sendNotification(sender_id, target_ID, type):
         cursor.execute("UPDATE users SET pending_notifications_count = pending_notifications_count + 1 WHERE id = %s", (target_ID,))  # Note the comma here
         cnx.commit()
         cursor.close()
+    	
 
         print(f"[Notifications Manager] Successfully added notification of type {notificationTypeID} to the notifications pool.")
 

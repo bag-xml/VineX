@@ -255,7 +255,7 @@ def likePost(post_id):
     # on the post's entry, update the users who actually like the post. for the list
     cursor.execute("SELECT usersWhoLiked FROM posts WHERE postID = %s", (post_id,))
     like_row = cursor.fetchone()
-    user_id = like_row[1]
+    user_id = liked_row[1]
     if like_row:
         likelist_json = like_row[0] if like_row[0] else '{"liked": []}'
         like_data = json.loads(likelist_json)

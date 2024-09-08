@@ -44,7 +44,7 @@ def userLikes(user_id):
                 response["data"]["records"].append({
                     "username": post[2],
                     "videoLowURL": post[4],
-                    "liked": 1,
+                    "liked": 1, # todo
                     "postToTwitter": 0,
                     "videoUrl": post[4],
                     "description": post[6],
@@ -84,17 +84,23 @@ def userLikes(user_id):
 
 
 def userTimeline(user_id):
+    # current user
+    uniqueIdentifer = request.headers.get('vine-session-id')
+
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT * FROM posts WHERE authorID = %s", (user_id,))
     posts_row = cursor.fetchall()
+    
+    cursor.execute("SELECT id FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
+    liker_row = cursor.fetchone()
 
     response = {
         "code": "",
         "data": {
             "count": 0,
             "records": [],
-            "nextPage": 1,
+            "nextPage": None,
             "previousPage": None,
             "size": 250
         },
@@ -102,12 +108,20 @@ def userTimeline(user_id):
         "error": ""
     }
 
+
     for row in posts_row:
+        didLike = False
+        uwf_json = row[11]
+        uwf_data = json.loads(uwf_json) if uwf_json else {"liked": []}
+        if 'liked' in uwf_data and isinstance(uwf_data['liked'], list):
+            if liker_row[0] in uwf_data['liked']:
+                didLike = True
+
         response["data"]["count"] += 1
         response["data"]["records"].append({
             "username": row[2],
             "videoLowURL": row[4],
-            "liked": 1,
+            "liked": didLike, # todo
             "postToTwitter": 0,
             "videoUrl": row[4],
             "description": row[6],

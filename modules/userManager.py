@@ -84,7 +84,7 @@ def handleProfile(user_id):
             "twitterId": 0,
             "userId": user_id,
             "twitterConnected": 0,
-            "likeCount": row[6],
+            "likeCount": row[6], #soon
             "facebookConnected": 0,
             "postCount": row[7],
             "phoneNumber": row[8],
@@ -210,7 +210,7 @@ def followerPage(user_id):
         "data": {
             "count": 0,
             "records": [],
-            "nextPage": 1,
+            "nextPage": None,
             "previousPage": None,
             "size": 250
         },
@@ -267,7 +267,7 @@ def searchForUser(query):
         "data": {
             "count": 0,
             "records": [],
-            "nextPage": 1,
+            "nextPage": None,
             "previousPage": None,
             "size": 250
         },
