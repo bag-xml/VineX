@@ -141,6 +141,10 @@ def retrieveUserLPosts(user_id):
     return timelineManager.userLikes(user_id)
 
 
+@app.route('/timelines/posts/<post_id>', methods=['GET'])
+def loadSingularPost(post_id):
+    return timelineManager.loadSinglePost(post_id)
+
 
 
 # user actions
@@ -152,6 +156,11 @@ def likeAPost(post_id):
 @app.route('/posts/<post_id>/likes', methods=['DELETE'])
 def unlikeAPost(post_id):
     return userActions.unlikePost(post_id)
+
+#::report
+@app.route('/posts/<post_id>/complaints', methods=['POST'])
+def reportAPost(post_id):
+    return userActions.fileAPostComplaint(post_id)
 
 # Host
 if __name__ == '__main__':

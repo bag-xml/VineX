@@ -121,7 +121,7 @@ def userTimeline(user_id):
         response["data"]["records"].append({
             "username": row[2],
             "videoLowURL": row[4],
-            "liked": didLike, # todo
+            "liked": didLike,
             "postToTwitter": 0,
             "videoUrl": row[4],
             "description": row[6],
@@ -159,7 +159,58 @@ def userTimeline(user_id):
 
 
 
+def loadSinglePost(post_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    cursor = cnx.cursor(buffered=True)
+    cursor.execute("SELECT * FROM posts WHERE postID = %s", (post_id,))
+    row = cursor.fetchone()
 
+    response = {
+    "code": "",
+    "data": {
+        "count": 18,
+        "records": [{
+            "username": row[2],
+            "videoLowURL": row[4],
+            "liked": 1,
+            "postToTwitter": 0,
+            "videoUrl": row[4],
+            "description": row[6],
+            "created": row[7],
+            "avatarUrl": row[16],
+            "userId": row[1],
+            "comments": {
+                "count": 0,
+                "records": [],
+                "nextPage": None,
+                "previousPage": None,
+                "size": 10
+            },
+            "thumbnailUrl": row[3],
+            "foursquareVenueId": row[14],
+            "likes": {
+                "count": 0,
+                "records": [],
+                "nextPage": None,
+                "previousPage": None,
+                "size": 10
+            },
+            "postToFacebook": 0,
+            "promoted": row[13],
+            "verified": row[12],
+            "postId": row[0],
+            "explicitContent": 0,
+            "tags": [{}],
+            "location": row[5]
+        }],
+        "nextPage": None,
+        "previousPage": None,
+        "size": 20
+    },
+    "success": True,
+    "error": ""
+    }
+    return jsonify(response)
 
 
 

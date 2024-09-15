@@ -253,7 +253,7 @@ def likePost(post_id):
             cnx.commit()
 
     # on the post's entry, update the users who actually like the post. for the list
-    cursor.execute("SELECT usersWhoLiked FROM posts WHERE postID = %s", (post_id,))
+    cursor.execute("SELECT usersWhoLiked, authorID FROM posts WHERE postID = %s", (post_id,))
     like_row = cursor.fetchone()
     user_id = liked_row[1]
     if like_row:
@@ -270,6 +270,8 @@ def likePost(post_id):
             cnx.commit()
 
 
+    notificationsManager.sendNotification(liked_row[1], like_row[1], post_id, type="LIKE")
+
 
     response = {
     "code": "",
@@ -285,7 +287,7 @@ def unlikePost(post_id):
     userIdentifier = request.headers.get('vine-session-id')
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
-    cursor.execute("SELECT likedPosts FROM users WHERE uniqueIdentifier = %s", (userIdentifier,))
+    cursor.execute("SELECT likedPosts, id FROM users WHERE uniqueIdentifier = %s", (userIdentifier,))
     liked_row = cursor.fetchone()
 
     likelist_json = liked_row[0]
@@ -297,6 +299,44 @@ def unlikePost(post_id):
 
     cursor.execute("UPDATE users SET likedPosts = %s, likeCount = likeCount - 1  WHERE uniqueIdentifier = %s", (final_likelist_json, userIdentifier))
     cnx.commit()
+
+    cursor.execute("SELECT usersWhoLiked FROM posts WHERE postID = %s", (post_id,))
+    uwl_row = cursor.fetchone()
+    uwl_json = uwl_row[0]
+    uwl_list = json.loads(uwl_json)['liked']
+    
+    if liked_row[1] in uwl_list:
+        uwl_list.remove(liked_row[1])
+    final_uwllist_json = json.dumps({"liked": uwl_list})
+
+    cursor.execute("UPDATE posts SET usersWhoLiked = %s WHERE postID = %s", (final_uwllist_json, post_id))
+    cnx.commit()
+
+    response = {
+    "code": "",
+    "data": [],
+    "success": True,
+    "error": ""
+    }
+
+    return make_response(jsonify(response), 201)
+
+
+def fileAPostComplaint(post_id):
+    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
+    likerIdentifier = request.headers.get('vine-session-id')
+    cursor = cnx.cursor(buffered=True)
+
+    cursor.execute("SELECT username, id FROM users WHERE uniqueIdentifier = %s", (likerIdentifier,))
+    sender_row = cursor.fetchone()
+
+
+    print(f"[User Actions Manager] User {sender_row[0]} (User ID: {sender_row[1]}) filed a complaint against post(ID) {post_id}). Please check later in the complaints pot!")
+
+    #todo, better complaint system. tables in db, and once the count reaches 10, by all different users, the account should be banned
+    with open("complaints.txt", "a") as file:
+        file.write(f"Complaint by User: {sender_row[0]} (User ID: {sender_row[1]}) against "
+                   f"Post(id): {post_id}\n")
 
     response = {
     "code": "",
