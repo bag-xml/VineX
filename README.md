@@ -3,7 +3,7 @@
    <h1>VineX</h1>
 </div>
 
-A server made for older versions of the iOS Vine application.
+<center>A server made for older versions of the iOS Vine application.</center>
 
 ## Information and Compatibility
 VineX is primarily made for the Vine iOS app, version 1.1.2. It's recommended that on release, VineX may only be used with that specific version, as support for more versions will be added in the future.
