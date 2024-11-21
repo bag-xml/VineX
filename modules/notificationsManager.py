@@ -3,8 +3,6 @@ from datetime import datetime
 import mysql.connector
 import config
 
-
-
 def displayNotifications(user_id):
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)

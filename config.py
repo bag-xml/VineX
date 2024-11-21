@@ -9,8 +9,8 @@
 # Version and name, will be reported back in logs
 
 AUTHOR = "XML"
-NAME = "XVineServer"
-VERSION = "v1.0a"
+NAME = "XineServer"
+VERSION = "v1.0c"
 
 # Networking
 PORT = "5001"

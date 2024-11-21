@@ -189,8 +189,17 @@ def loadSinglePost(post_id):
             "thumbnailUrl": row[3],
             "foursquareVenueId": row[14],
             "likes": {
-                "count": 0,
-                "records": [],
+                "count": 10,
+                "records": [
+                    {
+                    "avatarUrl": "",
+                    "created": "2013-01-02T16:26:28.000000",
+                    "likeId": 1,
+                    "location": "Hell",
+                    "userId": 1,
+                    "username": "Daphne XML"
+                    }
+                ],
                 "nextPage": None,
                 "previousPage": None,
                 "size": 10
