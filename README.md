@@ -52,7 +52,7 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 
 
 | Timeline  | Context | Status |
-| ------------- | ------------- | ------------- |
+| /timelines/posts/(Post ID) | Single post | Incomplete |
 
 | Explore  | Context | Status |
 | ------------- | ------------- | ------------- |
