@@ -65,13 +65,14 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 ## Bugs
 <ul>
    <li>Improper saving to the MySQL Database</li>
-   <li>Notification content is blank</li>
-   <li>Negative Likes</li>
+   <li>Notification content is blank (Yet to be fixed)</li>
+   <li>Negative Likes (Due to other factors, yet to be fixed)</li>
 </ul>
 
 ## How to use?
-You need to install python, then just install the requirements.
-Requirements for this project are:
-
-flask
-other
+<ul>
+<li>You need to install python, then just install the requirements. Requirements for this project are:
+<ul><li>flask</li>
+<li>other</li>
+</ul>
+</ul>
