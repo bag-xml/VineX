@@ -160,10 +160,22 @@ def userTimeline(user_id):
 
 
 def loadSinglePost(post_id):
+    # current user
+    uniqueIdentifer = request.headers.get('vine-session-id')
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     cursor = cnx.cursor(buffered=True)
     cursor.execute("SELECT * FROM posts WHERE postID = %s", (post_id,))
     row = cursor.fetchone()
+
+    cursor.execute("SELECT id FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifer,))
+    liker_id = cursor.fetchone()
+
+    didLike = False
+    uwf_json = row[11]
+    uwf_data = json.loads(uwf_json) if uwf_json else {"liked": []}
+    if 'liked' in uwf_data and isinstance(uwf_data['liked'], list):
+        if liker_id[0] in uwf_data['liked']:
+            didLike = True
 
     response = {
     "code": "",
@@ -172,34 +184,19 @@ def loadSinglePost(post_id):
         "records": [{
             "username": row[2],
             "videoLowURL": row[4],
-            "liked": 1,
+            "liked": didLike,
             "postToTwitter": 0,
             "videoUrl": row[4],
             "description": row[6],
             "created": row[7],
             "avatarUrl": row[16],
             "userId": row[1],
-            "comments": {
-                "count": 0,
-                "records": [],
-                "nextPage": None,
-                "previousPage": None,
-                "size": 10
-            },
+            "comments": {},
             "thumbnailUrl": row[3],
             "foursquareVenueId": row[14],
             "likes": {
-                "count": 10,
-                "records": [
-                    {
-                    "avatarUrl": "",
-                    "created": "2013-01-02T16:26:28.000000",
-                    "likeId": 1,
-                    "location": "Hell",
-                    "userId": 1,
-                    "username": "Daphne XML"
-                    }
-                ],
+                "count": 0,
+                "records": [], #coming soon
                 "nextPage": None,
                 "previousPage": None,
                 "size": 10
@@ -226,7 +223,22 @@ def loadSinglePost(post_id):
 
 
 
-
+""""likes": {
+                "count": 10,
+                "records": [
+                    {
+                    "avatarUrl": "",
+                    "created": "2013-01-02T16:26:28.000000",
+                    "likeId": 1,
+                    "location": "Hell",
+                    "userId": 1,
+                    "username": "Daphne XML"
+                    }
+                ],
+                "nextPage": None,
+                "previousPage": None,
+                "size": 10
+            },"""
 
 
 

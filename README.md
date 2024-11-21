@@ -66,7 +66,6 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 <ul>
    <li>Improper saving to the MySQL Database</li>
    <li>Notification content is blank (Yet to be fixed)</li>
-   <li>Negative Likes (Due to other factors, yet to be fixed)</li>
 </ul>
 
 ## How to use?
