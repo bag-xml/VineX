@@ -64,7 +64,7 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 
 ## Bugs
 <ul>
-   <li>Improper saving to the MySQL Database</li>
+   <li>Follower and following pages of users have wonky indicators</li>
    <li>Notification content is blank (Yet to be fixed)</li>
 </ul>
 

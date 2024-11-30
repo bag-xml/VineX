@@ -160,7 +160,7 @@ def followingPage(user_id):
         "data": {
             "count": 0,
             "records": [],
-            "nextPage": 1,
+            "nextPage": None,
             "previousPage": None,
             "size": 250
         },
@@ -179,7 +179,6 @@ def followingPage(user_id):
             query = f"SELECT id, username, pfp, following FROM users WHERE id IN ({format_strings})"
             cursor.execute(query, tuple(following_list))
             followed_users = cursor.fetchall()
-            isFollowing = False
 
 
             for user in followed_users:
