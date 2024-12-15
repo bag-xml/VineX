@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="https://blog.bag-xml.com/amber/static/resources/vine-x-tweak.png" height="160" width="160">
+   <img src="https://bag-xml.com/assets/img/v-redir.png" height="160" width="160">
    <h1>VineX</h1>
 </div>
 
