@@ -28,6 +28,7 @@ def displayNotifications(user_id):
         response["data"]["count"] += 1
         response["data"]["records"].append({
             "body": row[7],
+            "comment": None,
             "username": row[6],
             "verified": row[11],
             "avatarUrl": row[9],
@@ -144,3 +145,49 @@ def sampleNotif(user_id):
     }
 
     return jsonify(response)
+
+"""
+def displayNotifications(user_id):
+    response = {
+        "code": "",
+        "data": {
+            "count": 1,
+            "records": [
+                {
+                    "body": "<: user | vine://user-id/37 :>ScruffyC0rd<:> is now following you!",
+                    "comment": "<: user | vine://user-id/37 :>ScruffyC0rd<:> is now following you!",
+                    "displayUserId": 37,
+                    "userId": 37,
+                    "thumbnailUrl": None,
+                    "verified": 1,
+                    "avatarUrl": "http://uvr.a1429.lol/dynamic/avatars/ScruffyC0rd_d38929d2fbf15875a7884ac718cd9bb9.png",
+                    "user": {
+                        "userId": 37,
+                        "verified": 1,
+                        "username": "ScruffyC0rd",
+                        "avatarUrl": "http://uvr.a1429.lol/dynamic/avatars/ScruffyC0rd_d38929d2fbf15875a7884ac718cd9bb9.png",
+                        "following": "0"
+                    },
+                    "username": "ScruffyC0rd",
+                    "isNew": 0,
+                    "notificationTypeId": 1,
+                    "notificationType": 1,
+                    "type": None,
+                    "created": "2025-01-08T19:40:38.000000",
+                    "following": "0",
+                    "createdAt": "2025-01-08T19:40:38.000000",
+                    "displayAvatarUrl": "http://uvr.a1429.lol/dynamic/avatars/ScruffyC0rd_d38929d2fbf15875a7884ac718cd9bb9.png",
+                    "notificationId": 455,
+                    "postId": None
+                }
+            ]
+        },
+        "previousPage": None,
+        "nextPage": None,
+        "size": 1,
+        "success": True,
+        "error": ""
+    }
+
+    return jsonify(response)
+"""
