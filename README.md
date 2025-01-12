@@ -39,7 +39,7 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 | /users/(User-ID)  | Settings management  | Completed  |
 | /users/(User-ID)/preferences  | Settings management  | Completed  |
 | /users/(User-ID)/pendingNotificationsCount  | Notification indicator  | Completed  |
-| /users/(User-ID)/notifications  | Notifications (Activity page)  | Awkward  |
+| /users/(User-ID)/notifications  | Notifications (Activity page)  | Completed  |
 | /users/(User-ID)/following  | Following Page  | Completed  |
 | /users/search/(Search query)  | User search  | Completed  |
 | /users/(User-ID)/followers [GET]  | Follower Page  | Completed  |
@@ -52,6 +52,7 @@ Here is a table to show what endpoints have been implemented into VineX. And wha
 
 
 | Timeline  | Context | Status |
+| ------------- | ------------- | ------------- |
 | /timelines/posts/(Post ID) | Single post | Incomplete |
 
 | Explore  | Context | Status |
