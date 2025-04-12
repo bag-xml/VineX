@@ -114,7 +114,7 @@ def initFollowerPage(user_id):
 # Search
 @app.route('/users/search/<query>', methods=['GET'])
 def initUserSearch(query):
-    return userManager.searchForUser(query)
+    return find.searchForUser(query)
 
 
 

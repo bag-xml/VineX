@@ -176,7 +176,7 @@ def followingPage(user_id):
             following_list = [int(user_id) for user_id in following_list]
             format_strings = ','.join(['%s'] * len(following_list))
 
-            query = f"SELECT id, username, pfp, following FROM users WHERE id IN ({format_strings})"
+            query = f"SELECT id, username, pfp, following, location FROM users WHERE id IN ({format_strings})"
             cursor.execute(query, tuple(following_list))
             followed_users = cursor.fetchall()
 
@@ -186,6 +186,7 @@ def followingPage(user_id):
                 response["data"]["records"].append({
                     "userId": user[0],
                     "username": user[1],
+                    "location": user[4],
                     "avatarUrl": user[2],
                     "following": 1
                 })
@@ -225,7 +226,7 @@ def followerPage(user_id):
             followers_list = [int(user_id) for user_id in followers_list]
             format_strings = ','.join(['%s'] * len(followers_list))
 
-            query = f"SELECT id, username, pfp, following FROM users WHERE id IN ({format_strings})"
+            query = f"SELECT id, username, pfp, following, location FROM users WHERE id IN ({format_strings})"
             cursor.execute(query, tuple(followers_list))
             follower_users = cursor.fetchall()
             isFollowing = False         
@@ -235,6 +236,7 @@ def followerPage(user_id):
                 response["data"]["records"].append({
                     "userId": user[0],
                     "username": user[1],
+                    "location": user[4],
                     "avatarUrl": user[2],
                     "following": isFollowing
                 })
@@ -245,50 +247,6 @@ def followerPage(user_id):
     return jsonify(response)
 
 
-
-def searchForUser(query):
-    cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
-    cursor = cnx.cursor(buffered=True)
-    cursor.execute("SELECT * FROM users WHERE username LIKE %s", (f"%{query}%",))
-    user_row = cursor.fetchall()
-
-    uniqueIdentifier = request.headers.get('vine-session-id')
-    cursor.execute("SELECT following FROM users WHERE uniqueIdentifier = %s", (uniqueIdentifier,))
-    foll = cursor.fetchone()
-
-    following_list = []
-    if foll and foll[0]:
-        following_dict = json.loads(foll[0])
-        following_list = following_dict.get("following", [])
-
-    response = {
-        "code": "",
-        "data": {
-            "count": 0,
-            "records": [],
-            "nextPage": None,
-            "previousPage": None,
-            "size": 250
-        },
-        "success": True,
-        "error": ""
-    }
-
-    for row in user_row:
-        user_id = str(row[0])
-        is_following = False
-        if user_id in following_list:
-            is_following = True
-
-        response["data"]["count"] += 1
-        response["data"]["records"].append({
-            "username": row[5],
-            "avatarUrl": row[7],
-            "userId": row[0],
-            "following": is_following
-        })
-
-    return jsonify(response)
 
 # userpreferences segment
 def settings_management(user_id):

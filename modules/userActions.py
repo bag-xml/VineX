@@ -5,13 +5,14 @@ import config
 import json
 
 from modules import notificationsManager
-
+from modules import pushNotificationsManager
 
 # mayyybe redo this some time later in development idk???????????????????????????????????????????
 def followUser(user_id):
     cnx = mysql.connector.connect(user=config.USERNAME, password=config.PASSWORD,host=config.DBHOST,database=config.DATABASE)
     likerIdentifier = request.headers.get('vine-session-id')
     cursor = cnx.cursor(buffered=True)
+    print(f"user id {user_id}")
     
     # turn the session id into the user id
     cursor.execute("SELECT id FROM users WHERE uniqueIdentifier = %s", (likerIdentifier,))
@@ -63,9 +64,11 @@ def followUser(user_id):
             updated_following_json = json.dumps(following_data)
             cursor.execute("UPDATE users SET following = %s, followingCount = followingCount + 1 WHERE id = %s", (updated_following_json, liker_ID))
             cnx.commit()
+            print("Success - db")
 
     # call the notifications manager
-    notificationsManager.sendNotification(liker_ID, user_id, type="FOLLOW")
+
+    notificationsManager.sendNotification(liker_ID, user_id, postID=None, type="FOLLOW")
     print(f'[User Actions Manager] Done adding follower')
 
     successFeedback = {
@@ -126,7 +129,7 @@ def unfollowUser(user_id): #unfollower_id = user, user_id = target
     cnx.commit()
 
 
-    notificationsManager.sendNotification(unfollower_id, user_id, type="UNFOLLOW")
+    notificationsManager.sendNotification(unfollower_id, user_id, postID=None, type="UNFOLLOW")
     print(f'[User Actions Manager] Done removing follower')
 
     successFeedback = {
@@ -210,6 +213,9 @@ def fileComplaint(user_id):
     with open("complaints.txt", "a") as file:
         file.write(f"Complaint by User: {sender_row[0]} (User ID: {sender_row[1]}) against "
                    f"User: {recipient_row[0]} (User ID: {recipient_row[1]})\n")
+
+    if config.ENABLE_ADMIN_PUSHNOTIFS == True:
+        pushNotificationsManager.send_http_request(str("A complaint has been filed. Please check the complaints pot!"))
 
     response = {
     "code": "",
@@ -312,6 +318,7 @@ def unlikePost(post_id):
     cursor.execute("UPDATE posts SET usersWhoLiked = %s WHERE postID = %s", (final_uwllist_json, post_id))
     cnx.commit()
 
+    
     response = {
     "code": "",
     "data": [],
@@ -338,6 +345,9 @@ def fileAPostComplaint(post_id):
         file.write(f"Complaint by User: {sender_row[0]} (User ID: {sender_row[1]}) against "
                    f"Post(id): {post_id}\n")
 
+    if config.ENABLE_ADMIN_PUSHNOTIFS == True:
+        pushNotificationsManager.send_http_request(str("A complaint has been filed. Please check the complaints pot!"))
+    
     response = {
     "code": "",
     "data": [],
