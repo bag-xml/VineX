@@ -259,7 +259,7 @@ def loadSinglePost(post_id):
 
 
 
-""""likes": {
+"""likes": {
                 "count": 10,
                 "records": [
                     {
