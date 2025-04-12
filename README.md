@@ -8,7 +8,7 @@
 ## My Original Vision
 I intended VineX to be a way to still be able to interact with the Vine archive in a way that makes it feel alive, instead of dead. Users should still be able to have their own accounts, be able to comment, customize their profiles, like videos, see the likes of others, but not be able to upload. The only posts available on VIneX should be those from the official Vine Archive. Furthermore I felt inspired by <a href="https://grapper.gabis.online/">https://grapper.gabis.online/</a>, which is a wrapper around the Vine API that is an alternative to the official Vine archive which is currently inaccesible.
 
-I would've loved to finish VineX but I'm missing the time and motivation to do it. I bet there's probably anyone out there who feels more ambitioned to make this real. If you do, you're awesome by the way.
+I would've loved to finish VineX but I'm missing the time and motivation to do it. I bet there's probably anyone out there who feels more ambitioned to make this real. If you do, you're awesome by the way. If you like VineX, or want to save it for later, I'd recommend you star this repository!
 
 ## Information and Compatibility
 VineX is primarily made for the Vine iOS app, version 1.1.2. It's recommended that on release, VineX may only be used with that specific version, as support for more versions will be added in the future.
